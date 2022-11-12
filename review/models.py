@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from main import settings
 from django.urls import reverse
 import datetime
 from django.utils import timezone
@@ -19,7 +20,7 @@ REVIEW_ANSWER_ACTION_CHOICES = [
 
 # Need 500 Rep
 class FirstAnswerReview(models.Model):
-    AnswerReviewedBy = models.ForeignKey(User, on_delete=models.CASCADE)
+    AnswerReviewedBy = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     answerReview = models.ForeignKey(Answer, on_delete=models.CASCADE)
     actions = models.CharField(max_length=30, choices=REVIEW_ANSWER_ACTION_CHOICES,null=True)
     # testEdit = models.BooleanField(default=False)
@@ -39,7 +40,7 @@ REVIEW_QUESTION_ACTIONS_CHOICES = [
 
 # Need 500 Rep
 class FirstQuestionReview(models.Model):
-    QuestionReviewBy = models.ForeignKey(User, on_delete=models.CASCADE)
+    QuestionReviewBy = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     questionReview = models.ForeignKey(Question, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     questionActions = models.CharField(max_length=30, choices=REVIEW_QUESTION_ACTIONS_CHOICES,null=True)
@@ -58,7 +59,7 @@ LATE_ANSWER_ACTIONS_CHOICES = [
 
 # Need 500 Rep
 class LateAnswerReview(models.Model):
-    L_AnswerReviewdBy = models.ForeignKey(User, on_delete=models.CASCADE)
+    L_AnswerReviewdBy = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     L_answerReview = models.ForeignKey(Answer, on_delete=models.CASCADE)
     L_AnswerActions = models.CharField(max_length=30, choices=LATE_ANSWER_ACTIONS_CHOICES,null=True, verbose_name='Late Answers Review')
     date = models.DateTimeField(auto_now_add=True)
@@ -78,7 +79,7 @@ APPROVAL_CHOICES = [
 
 # Need 2000 Rep
 class QuestionEditVotes(models.Model):
-    edit_suggested_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    edit_suggested_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     edited_question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True, blank=True)
     edited_answer = models.ForeignKey(Answer, on_delete=models.CASCADE, null=True, blank=True)
     edited_suggested_at = models.DateTimeField(auto_now_add=True)
@@ -110,7 +111,7 @@ EDIT_REVIEW_ACTIONS = [
 class ReviewQuestionEdit(models.Model):
     question_to_view = models.ForeignKey(Question, on_delete=models.CASCADE, blank=True, null=True)
     answer_to_view_if = models.ForeignKey(Answer, on_delete=models.CASCADE, blank=True, null=True)
-    edit_reviewed_by = models.ManyToManyField(User, related_name="edit_reviewed_by")
+    edit_reviewed_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="edit_reviewed_by")
     queue_of = models.ForeignKey(QuestionEditVotes, on_delete=models.CASCADE, blank=True, null=True)
     date_reviewed = models.DateTimeField(auto_now_add=True)
     reviewActions = models.CharField(max_length=30, choices=EDIT_REVIEW_ACTIONS, blank=True, null=True)
@@ -149,7 +150,7 @@ CLOSE_ACTIONS_Q = [
 
 # Need 3000 Rep
 class CloseQuestionVotes(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     question_to_closing = models.ForeignKey(Question,on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     # CHANGE duplicate_of's CharField into URLField
@@ -186,7 +187,7 @@ class ReviewCloseVotes(models.Model):
     question_to_closed = models.ForeignKey(Question, on_delete=models.CASCADE,default='')
     review_of = models.ForeignKey(CloseQuestionVotes, on_delete=models.CASCADE,default='', null=True)
     reviewActions = models.CharField(max_length=30,choices=CLOSE_REVIEW_ACTION_CHOICES, blank=True, null=True)
-    reviewed_by = models.ManyToManyField(User, related_name="reviewed_by")
+    reviewed_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="reviewed_by")
     is_completed = models.BooleanField(default=False)
     how_Ended = models.CharField(max_length=30, choices=ENDED_CHOICES, blank=True, null=True)
     finalResult = models.CharField(max_length=30, default='', blank=True, null=True)
@@ -230,7 +231,7 @@ REOPEN_ENDED_CHOICES = [
 
 # Need 3000 Rep
 class ReOpenQuestionVotes(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     question_to_opening = models.ForeignKey(Question, on_delete=models.CASCADE)
     date_opening = models.DateTimeField(auto_now_add=True)
     why_opening = models.CharField(max_length=30, choices=REOPEN_CLOSED_Q_CHOICES)
@@ -255,7 +256,7 @@ class ReviewQuestionReOpenVotes(models.Model):
     question_opened = models.ForeignKey(Question, on_delete=models.CASCADE)
     review_of = models.ForeignKey(ReOpenQuestionVotes, on_delete=models.CASCADE,default='', null=True)
     reviewActions = models.CharField(max_length=30, choices=REVIEW_REOPEN_ACTION_CHOICES, blank=True, null=True)
-    reopen_reviewed_by = models.ManyToManyField(User, related_name='reopen_reviewed_by')
+    reopen_reviewed_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='reopen_reviewed_by')
     is_completed = models.BooleanField(default=False)
     what_happend = models.CharField(max_length=30, default='',blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
@@ -303,7 +304,7 @@ SUGGEST_CHOICES = [
 
 # Need 2000 Rep
 class LowQualityPostsCheck(models.Model):
-    suggested_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    suggested_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     suggested_through = models.CharField(max_length=30, choices=SUGGEST_CHOICES)
     low_is = models.ForeignKey(Question, on_delete=models.CASCADE, null=True, blank=True)
     low_ans_is = models.ForeignKey(Answer, on_delete=models.CASCADE, null=True, blank=True)
@@ -326,7 +327,7 @@ class LowQualityPostsCheck(models.Model):
 
 # Need 2000 Rep
 class ReviewLowQualityPosts(models.Model):
-    reviewers = models.ManyToManyField(User, related_name="reviewers")
+    reviewers = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="reviewers")
     review_of = models.ForeignKey(LowQualityPostsCheck, on_delete=models.CASCADE)
     reviewActions = models.CharField(max_length=30, choices=LOW_QUALITY_CHOICES, blank=True, null=True)
     is_answer = models.ForeignKey(Answer, on_delete=models.CASCADE, blank=True, null=True)
@@ -397,7 +398,7 @@ IN_NEED_OF_MODERATOR_INTERVATION will only see to moderators.
 """
 
 class FlagPost(models.Model):
-    flagged_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    flagged_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     question_forFlag = models.ForeignKey(Question, on_delete=models.CASCADE, blank=True, null=True)
     answer_forFlag = models.ForeignKey(Answer, on_delete=models.CASCADE, blank=True, null=True)
     actions_Flag_Q = models.CharField(max_length=300, choices=Q_Flags_Choices)
@@ -424,7 +425,7 @@ FLAG_REVIEW_CHOICES = [
 class ReviewFlagPost(models.Model):
     flag_question_to_view = models.ForeignKey(Question, on_delete=models.CASCADE, blank=True, null=True)
     flag_answer_to_view_if = models.ForeignKey(Answer, on_delete=models.CASCADE, blank=True, null=True)
-    flag_reviewed_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    flag_reviewed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     flag_of = models.ForeignKey(FlagPost, on_delete=models.CASCADE, blank=True, null=True)
     flagReviewActions = models.CharField(max_length=30, choices=FLAG_REVIEW_CHOICES)
     flag_is_reviewed = models.BooleanField(default=False, blank=True, null=True)
@@ -454,7 +455,7 @@ COMMENT_FLAG_CHOICES = [
 
 class FlagComment(models.Model):
     comment_of = models.ForeignKey(CommentQ, on_delete=models.CASCADE)
-    comment_flagged_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment_flagged_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     why_flagging = models.CharField(max_length=30, choices=COMMENT_FLAG_CHOICES)
     something_else = models.CharField(max_length=30, blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
@@ -477,7 +478,7 @@ C_FLAG_ACTIONS = [
 class ReviewFlagComment(models.Model):
     flag_of = models.ForeignKey(CommentQ, on_delete=models.CASCADE)
     review_of = models.ForeignKey(FlagComment, on_delete=models.CASCADE, default='',null=True)
-    c_flag_reviewed_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    c_flag_reviewed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     c_flagReviewActions = models.CharField(max_length=30, choices=C_FLAG_ACTIONS)
     c_is_reviewed = models.BooleanField(default=False)
 

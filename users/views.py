@@ -15,10 +15,10 @@ def signup_view(request):
         # getFormEmail = form.cleaned_data['email']
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
             getFormEmail = form.cleaned_data['email']
-            user = authenticate(username=username, password=raw_password)
+            user = authenticate(email=email, password=raw_password)
             login(request, user)
             request.user.profile.email = getFormEmail
             request.user.profile.save()
@@ -27,28 +27,30 @@ def signup_view(request):
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
+
 def login_request(request):
     if request.method == 'POST':
         form = AuthenticationForm(request=request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+            user = authenticate(email=email, password=password)
             if user is not None:
                 login(request, user)
                 request.user.profile.logout_on_all_devices = False
                 request.user.profile.save()
-                messages.info(request, f"You are now logged in as {username}")
+                messages.info(request, f"You are now logged in as {email}")
                 return redirect('/')
             else:
-                messages.error(request, "Invalid username or password.")
+                messages.error(request, "Invalid email or password.")
         else:
-            messages.error(request, "Invalid username or password.")
+            messages.error(request, "Invalid email or password.")
     else:
         form = AuthenticationForm()
     return render(request = request,
                     template_name = "registration/login.html",
                     context={"form":form})
+
 
 def logout_view(request):
     logout(request)

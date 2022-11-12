@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+from main import settings
+# from django.contrib.auth.models import User
 from qa.models import Question,Answer
 
 TYPE_OF_NOTI = [
@@ -15,7 +16,7 @@ TYPE_OF_NOTI = [
 ]
 
 class Notification(models.Model):
-	noti_receiver = models.ForeignKey(User,on_delete=models.CASCADE, default='', related_name='noti_receiver')
+	noti_receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default='', related_name='noti_receiver')
 	type_of_noti = models.CharField(max_length=30,choices=TYPE_OF_NOTI,default='')
 	url = models.URLField(null=True,blank=True)
 	date_created = models.DateTimeField(auto_now_add=True)
@@ -40,7 +41,7 @@ PRIV_NOTIFY_CHOICES = [
 ]
 
 class PrivRepNotification(models.Model):
-	for_user = models.ForeignKey(User, on_delete=models.CASCADE)
+	for_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	url = models.URLField(null=True, blank=True, default="#")
 	for_if = models.CharField(max_length=30,default='')
 	date_created_PrivNotify = models.DateTimeField(auto_now_add=True)

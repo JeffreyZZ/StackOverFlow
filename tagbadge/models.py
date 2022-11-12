@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from main import settings
 from django.utils.translation import ugettext_lazy as _
 from model_utils import Choices
 from qa.models import Question,Answer
@@ -24,7 +25,7 @@ BADGE_TYPE_CHOICES = [
 
 
 class TagBadge(models.Model):
-	awarded_to_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='awarded_to_user')
+	awarded_to_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='awarded_to_user')
 	description = models.CharField(max_length=500, blank=True, null=True)
 	badge_type = models.CharField(max_length=30,choices=BADGE_TYPE_CHOICES)
 	tag_name = models.CharField(max_length=30, default='')

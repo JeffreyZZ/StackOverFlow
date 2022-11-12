@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from main import settings
 from django.urls import reverse
 # from ckeditor_uploader.fields import RichTextUploadingField
 from taggit.managers import TaggableManager
@@ -28,15 +29,15 @@ ACTIVE_FOR_CHOICES = [
 
 
 class Question(models.Model):
-    post_owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    post_owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=5000, default='')
     body = MartorField()
     tags = TaggableManager()
     date = models.DateTimeField(auto_now_add=True)
     active_date = models.DateTimeField(auto_now=True)
-    viewers = models.ManyToManyField(User, related_name='viewed_posts', blank=True)
+    viewers = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='viewed_posts', blank=True)
     q_reputation = models.IntegerField(default=0)
-    q_edited_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='q_edited_by', default='', null=True, blank=True)
+    q_edited_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='q_edited_by', default='', null=True, blank=True)
     q_edited_time = models.DateTimeField(auto_now_add=True)  
     is_bountied = models.BooleanField(default=False)
     bounty_date_announced = models.DateTimeField(auto_now_add=True)
@@ -54,7 +55,7 @@ class Question(models.Model):
     reversal_monitor = models.BooleanField(default=False)
 
     lastActiveFor = models.CharField(choices=ACTIVE_FOR_CHOICES, max_length=5000, default='', blank=True)
-    lastActiveFor_by = models.ForeignKey(User, on_delete=models.CASCADE,related_name='lastActiveFor_by', blank=True, null=True)
+    lastActiveFor_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='lastActiveFor_by', blank=True, null=True)
     slug = models.SlugField(max_length=1000, null=True, blank=True)
 
     deleted_time = models.DateTimeField(auto_now_add=True, blank=True)
@@ -130,7 +131,7 @@ class Question(models.Model):
 
 
 class BookmarkQuestion(models.Model):
-    bookmarked_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    bookmarked_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     bookmarked_question = models.ForeignKey(Question, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
 
@@ -138,7 +139,7 @@ class BookmarkQuestion(models.Model):
         return f"[U] {self.bookmarked_by} = [Q] {self.bookmarked_question.title}"
 
 class QUpvote(models.Model):
-    upvote_by_q = models.ForeignKey(User, on_delete=models.CASCADE)
+    upvote_by_q = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     upvote_question_of = models.ForeignKey(Question, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     hisory = HistoricalRecords(related_name="qupvotehistory")
@@ -147,7 +148,7 @@ class QUpvote(models.Model):
         return f"{self.upvote_question_of} = [UPVOTED-BY] {self.upvote_by_q}"
 
 class QDownvote(models.Model):
-    downvote_by_q = models.ForeignKey(User, on_delete=models.CASCADE)
+    downvote_by_q = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     downvote_question_of = models.ForeignKey(Question, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     hisory = HistoricalRecords(related_name="qdownvotehistory")
@@ -163,19 +164,19 @@ DELETE_HISTORY = [
 ]
 
 class Answer(models.Model):
-    answer_owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    answer_owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     questionans = models.ForeignKey(Question, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     body = MartorField()
-    a_vote_ups = models.ManyToManyField(User, related_name='a_vote_up', blank=True)
-    a_vote_downs = models.ManyToManyField(User, related_name='a_vote_down', blank=True)
+    a_vote_ups = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='a_vote_up', blank=True)
+    a_vote_downs = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='a_vote_down', blank=True)
     accepted = models.BooleanField(default=False)
     a_reputation = models.IntegerField(default=0)
     is_bountied_awarded = models.BooleanField(default=False)
     # a_upvote_time = models.DateTimeField(auto_now_add=True)
     # a_downvote_time = models.DateTimeField(auto_now_add=True)
     active_time = models.DateTimeField(auto_now=True)
-    a_edited_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='a_edited_time')
+    a_edited_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, related_name='a_edited_time')
     a_edited_time = models.DateTimeField(auto_now=True)
     why_editing = models.CharField(max_length=5000,default='')
     history = HistoricalRecords(related_name='anshis')
@@ -224,11 +225,11 @@ class Answer(models.Model):
 class CommentQ(models.Model):
     question_comment = models.ForeignKey(Question,on_delete=models.CASCADE, blank=True, null=True)
     answer_comment = models.ForeignKey(Answer, on_delete=models.CASCADE, blank=True, null=True)
-    commented_by = models.ForeignKey(User,on_delete=models.CASCADE)
+    commented_by = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     deleted = models.BooleanField(default=False)
     comment = models.CharField(max_length=200, default='')
     date = models.DateTimeField(auto_now_add=True)
-    com_upvote = models.ManyToManyField(User, related_name='comm_upvote', blank=True)
+    com_upvote = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comm_upvote', blank=True)
     com_upvote_time = models.DateTimeField(auto_now_add=True)
     history = HistoricalRecords(related_name='commentHis')
 
@@ -268,9 +269,9 @@ BOUNTY_VALUE_CHOICES = [
 ]
 
 class Bounty(models.Model):
-    by_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    by_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     question_bounty = models.ForeignKey(Question, on_delete=models.CASCADE)
-    bounty_awarded_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bounty_awarded_to', null=True, blank=True)
+    bounty_awarded_to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='bounty_awarded_to', null=True, blank=True)
     bounty_value = models.CharField(max_length=500, choices=BOUNTY_VALUE_CHOICES, default='50')
     why_bounting = models.CharField(max_length=30, default='')
     is_awarded = models.BooleanField(default=False)
@@ -292,8 +293,8 @@ APPROVAL_CHOICES = [
 
 
 class ProtectQuestion(models.Model):
-    protected_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    protectionRemovedBy = models.ForeignKey(User, on_delete=models.CASCADE, related_name='protectionRemovedBy')
+    protected_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    protectionRemovedBy = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='protectionRemovedBy')
     protecting_question = models.ForeignKey(Question, on_delete=models.CASCADE)
     why_want_toProtect = models.CharField(max_length=30,default='')
     protected_date = models.DateTimeField(auto_now_add=True)
@@ -320,7 +321,7 @@ INC_DEC_CHOICES = [
 ]
 
 class Reputation(models.Model):
-    awarded_to = models.ForeignKey(User, on_delete=models.CASCADE, null=True,blank=True)
+    awarded_to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True,blank=True)
     question_O = models.ForeignKey(Question, on_delete=models.CASCADE, null=True,blank=True)
     answer_O = models.ForeignKey(Answer, on_delete=models.CASCADE, null=True, blank=True)
     # user_reputation = models.IntegerField(default=0)
@@ -360,8 +361,8 @@ BAN_TILL_CHOICES = [
 ]
 
 class BannedUser(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
-    banned_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="banned_by")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user")
+    banned_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="banned_by")
     banned_reasons = models.CharField(max_length=50, choices=BANN_REASONS, default='')
     baned_at = models.DateTimeField(auto_now_add=True)
     is_banned = models.BooleanField(default=False)

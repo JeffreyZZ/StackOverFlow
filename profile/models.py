@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
@@ -53,7 +53,7 @@ JOB_TYPE_CHOICES = [
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
     full_name = models.CharField(max_length=30, default='')
     not_to_Display_Full_name = models.CharField(max_length=30, default='')
     email = models.EmailField(max_length=30, default='')
@@ -145,18 +145,18 @@ class Profile(models.Model):
 
 
 
-@receiver(post_save, sender=User)  # add this
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)  # add this
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-@receiver(post_save, sender=User)  # add this
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)  # add this
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
 class Position(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     company_name = models.CharField(max_length=30, default='')
     title = models.CharField(max_length=30, default='')
     company_website = models.CharField(max_length=30, default='')
