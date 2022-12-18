@@ -57,3 +57,6 @@ class User(AbstractUser):
     
     def has_module_perms(self, app_label):
         return True
+
+    class Meta:
+        db_table = 'quesnotion_users'

@@ -15,7 +15,7 @@ from itertools import chain
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from review.models import CloseQuestionVotes,ReOpenQuestionVotes,FlagComment,FlagPost
 from tagbadge.models import TagBadge
-from django.contrib.auth.models import User
+from users.models import User
 from taggit.models import Tag
 from .decorators import unBanRequired,profileOwnerRequired_For_Edit
 from .forms import PositionCreateForm,PositionCreateForm

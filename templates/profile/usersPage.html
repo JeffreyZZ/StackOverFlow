@@ -113,7 +113,7 @@
                         <a href="{% url 'profile:activityPageTabProfile' user.id user.username %}"><div class="gravatar-wrapper-48"><img src="{% if user.profile.profile_photo %}{{user.profile.profile_photo.url}}{% endif %}" alt="" width="48" height="48" class="bar-sm"></div></a>
                     </div>
                     <div class="user-details">
-                        <a href="{% url 'profile:activityPageTabProfile' user.id user.username %}">{{user.username}}</a>
+                        <a href="{% url 'profile:activityPageTabProfile' user.id user.username %}">{{user.email}}</a>
                         <span class="user-location">{{user.profile.location}}
                         </span>
                         <div class="-flair">
