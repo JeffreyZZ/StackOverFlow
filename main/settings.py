@@ -128,6 +128,8 @@ WSGI_APPLICATION = 'main.wsgi.application'
 If you don't want to use postgresql then remove comment of sqlite's configuration and
 comment in the postgresql configuration
 """
+
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -135,16 +137,17 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'POSTGRESQL_NAME',
-#         'USER': 'POSTGRESQL_USER',
-#         'PASSWORD': 'POSTGRESQL_PASSWORD',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
+"""
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.mysql',
+         'NAME': 'quesnotion',
+         'USER': 'root',
+         'PASSWORD': '123',
+         'HOST': 'localhost',
+         'PORT': '3306',
+     }
+ }
 
 # Password validation
 AUTH_USER_MODEL = 'users.User'
