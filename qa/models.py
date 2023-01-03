@@ -56,7 +56,8 @@ class Question(models.Model):
 
     lastActiveFor = models.CharField(choices=ACTIVE_FOR_CHOICES, max_length=5000, default='', blank=True)
     lastActiveFor_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='lastActiveFor_by', blank=True, null=True)
-    slug = models.SlugField(max_length=1000, null=True, blank=True)
+    # max_length should NOT more than 767 orelse it causes the error in database with utf8mb4 encoding
+    slug = models.SlugField(max_length=600, null=True, blank=True)  
 
     deleted_time = models.DateTimeField(auto_now_add=True, blank=True)
 
