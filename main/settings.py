@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=dei9kx=^q))zm#z-(_cwdii75e-4bsf5_7suo9ll&besz088u'
+SECRET_KEY = 'm1925=zmpn6_1u39lr)=g^q)y+&6ae1=i$(2d=s@%xjc8n!o%e'
 # from django.conf import settings
 settings.configure()
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -143,7 +143,7 @@ DATABASES = {
          'ENGINE': 'django.db.backends.mysql',
          'NAME': 'quesnotion',
          'USER': 'root',
-         'PASSWORD': '123',
+         'PASSWORD': '',
          'HOST': 'localhost',
          'PORT': '3306',
          'OPTIONS': {'charset': 'utf8mb4'},

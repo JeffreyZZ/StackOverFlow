@@ -29,7 +29,6 @@ ACTIVE_FOR_CHOICES = [
 
 
 class Question(models.Model):
-    post_owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=5000, default='')
     body = MartorField()
     tags = TaggableManager()
@@ -60,8 +59,9 @@ class Question(models.Model):
     slug = models.SlugField(max_length=600, null=True, blank=True)  
 
     deleted_time = models.DateTimeField(auto_now_add=True, blank=True)
-
-
+    # FK needed by notion
+    page_element = models.ForeignKey("Page_element", related_name="question", null=True, on_delete=models.CASCADE, blank=True)
+    post_owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["-date"]
@@ -371,3 +371,27 @@ class BannedUser(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.banned_reasons} - {self.ban_till}"
+
+# Page model used by notion
+class Page(models.Model):
+    name = models.CharField(max_length=64)
+    parent = models.ForeignKey("Page", related_name='children', null=True, blank=True, on_delete=models.CASCADE)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    photo = models.CharField(max_length=100, null=True, blank=True)
+    closed=models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['id']
+
+    def __str__(self):
+        return f"{self.name}" 
+
+# Page_element used by notion
+class Page_element(models.Model):
+    page = models.ForeignKey("Page", related_name="page_elements", on_delete=models.CASCADE)
+    element_type = models.CharField(max_length=85)
+    order_on_page = models.FloatField()
+    color = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.id}"
