@@ -1659,10 +1659,11 @@ def questionDetailView(request, pk,):  # slug):
 
                     # if request.user != new_post.answer_owner:
                     Notification.objects.create(
-                            noti_receiver=data.post_owner,
-                            type_of_noti="NEW_ANSWER",
-                            url=question_URL,
-                            answer_noti=new_post)
+                        noti_receiver=data.post_owner,
+                        type_of_noti="NEW_ANSWER",
+                        url=question_URL,
+                        answer_noti=new_post,
+                        question_noti=data)
 
                     if len(gettingBody) <= 200:
                         # print("Second Last Statement")
@@ -1692,10 +1693,11 @@ def questionDetailView(request, pk,):  # slug):
                         data.get_absolute_url())
                     # if request.user != new_post.answer_owner:
                     Notification.objects.create(
-                            noti_receiver=data.post_owner,
-                            type_of_noti="NEW_ANSWER",
-                            url=question_URL,
-                            answer_noti=new_post)
+                        noti_receiver=data.post_owner,
+                        type_of_noti="NEW_ANSWER",
+                        url=question_URL,
+                        answer_noti=new_post,
+                        question_noti=data)
                 else:
                     print("Not Working")
 
@@ -1715,7 +1717,8 @@ def questionDetailView(request, pk,):  # slug):
                             noti_receiver=data.post_owner,
                             type_of_noti="NEW_ANSWER",
                             url=question_URL,
-                            answer_noti=new_post)
+                            answer_noti=new_post,
+                            question_noti=data)
                 # Revival Tag - START
 
                 # WORKED
@@ -1730,7 +1733,9 @@ def questionDetailView(request, pk,):  # slug):
                             noti_receiver=data.post_owner,
                             type_of_noti="NEW_ANSWER",
                             url=question_URL,
-                            answer_noti=new_post)
+                            answer_noti=new_post,
+                            question_noti=data)
+                    
                 if gettingWiki and request.user.profile.create_wiki_posts == False:
                     new_post.is_wiki_answer = False
                     new_post.save()
@@ -1741,7 +1746,8 @@ def questionDetailView(request, pk,):  # slug):
                             noti_receiver=data.post_owner,
                             type_of_noti="NEW_ANSWER",
                             url=question_URL,
-                            answer_noti=new_post)
+                            answer_noti=new_post,
+                            question_noti=data)
                     messages.error(
                         request, 'You need atleast 10 Reputation to this Answer into Wiki Posts')
                 else:
@@ -1754,7 +1760,8 @@ def questionDetailView(request, pk,):  # slug):
                             noti_receiver=data.post_owner,
                             type_of_noti="NEW_ANSWER",
                             url=question_URL,
-                            answer_noti=new_post)
+                            answer_noti=new_post,
+                            question_noti=data)
 
                 getEditingTime = request.user.profile.editPostTimeOfUser
                 getRecentAnswer = Answer.objects.filter(
