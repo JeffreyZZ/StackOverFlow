@@ -60,7 +60,6 @@ class Question(models.Model):
 
     deleted_time = models.DateTimeField(auto_now_add=True, blank=True)
     # FK needed by notion
-    page_element = models.ForeignKey("Page_element", related_name="question", null=True, on_delete=models.CASCADE, blank=True)
     post_owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
@@ -389,6 +388,7 @@ class Page(models.Model):
 # Page_element used by notion
 class Page_element(models.Model):
     page = models.ForeignKey("Page", related_name="page_elements", on_delete=models.CASCADE)
+    question = models.ForeignKey("Question", related_name="page_element", on_delete=models.DO_NOTHING, null=True, blank=True, default=None)
     element_type = models.CharField(max_length=85)
     order_on_page = models.FloatField()
     color = models.CharField(max_length=100, null=True, blank=True)
