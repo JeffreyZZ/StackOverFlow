@@ -1,0 +1,19 @@
+version: '1'
+
+services:
+  so-django:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend  # Use the new Dockerfile for Django
+    ports:
+      - "8091:8091"
+    networks:
+      - mynetwork
+    volumes:
+      - .:/app
+    environment:
+      DATABASE_HOST: mysql
+
+networks:
+  mynetwork:
+    external: true

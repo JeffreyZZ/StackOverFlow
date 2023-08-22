@@ -144,7 +144,7 @@ DATABASES = {
          'NAME': 'quesnotion',
          'USER': 'root',
          'PASSWORD': '',
-         'HOST': 'localhost',
+         'HOST': os.environ.get('DATABASE_HOST', 'localhost'), #'localhost',
          'PORT': '3306',
          'OPTIONS': {'charset': 'utf8mb4'},
      }
