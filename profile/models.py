@@ -1,20 +1,16 @@
 from django.db import models
-#from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
 from qa.models import Question
-import os
 from random import choice
 from os.path import join as path_join
 from os import listdir
 from os.path import isfile
 import datetime
 from django.utils import timezone
-from datetime import timedelta
-from datetime import datetime as dt
 from django.urls import reverse
-from qa.models import CommentQ
+
 
 def random_img():
     dir_path = 'media/'
@@ -22,34 +18,26 @@ def random_img():
         dir_path) if isfile(path_join(dir_path, content))]
     return path_join(dir_path, choice(files))
 
-
-
 JOB_STATUS = [
     ('looking_for_job', 'Actively looking right now'),
     ('open_but_not_looking', 'Open, but not actively looking'),
     ('not_interested_in_jobs', 'Not interested in jobs'),
 ]
 
-
 EXPERIENCE_LEVEL = [
-
-    ('Student','Student'),
+    ('Student', 'Student'),
     ('Junior', 'Junior'),
     ('Mid_Level', 'Mid Level'),
     ('Senior', 'Senior'),
     ('Lead', 'Lead'),
     ('Manager', 'Manager'),
-
 ]
 
 JOB_TYPE_CHOICES = [
-
     ('FULL_TIME', 'Full Time'),
     ('CONTRCT', 'Contract'),
     ('InternShip', 'InternShip'),
-
 ]
-
 
 
 class Profile(models.Model):
@@ -77,50 +65,43 @@ class Profile(models.Model):
     review_close_votes = models.BooleanField(default=False)
     favorite_question_S = models.BooleanField(default=False)
     lifeJacket = models.BooleanField(default=False)
-
-
     altruist = models.BooleanField(default=False)
+
 # PRIVILEGES
     commenter = models.BooleanField(default=False)
 
-
 # OTHERS
-
-
     logout_on_all_devices = models.BooleanField(default=False)
     send_email_notifications = models.BooleanField(default=False)
-
     voting_flags = models.IntegerField(default=0)
     helpful_close_votes = models.IntegerField(default=0)
-
 
 # DEVELOPER STORY
     name = models.CharField(max_length=30, default='')
     prefered_technologies = models.CharField(max_length=30, default='')
-    min_expierence_level = models.CharField(max_length=30,choices=EXPERIENCE_LEVEL, default='')
-    max_expierence_level = models.CharField(max_length=30,choices=EXPERIENCE_LEVEL, default='')
+    min_expierence_level = models.CharField(max_length=30, choices=EXPERIENCE_LEVEL, default='')
+    max_expierence_level = models.CharField(max_length=30, choices=EXPERIENCE_LEVEL, default='')
     job_type = models.CharField(max_length=30, choices=JOB_TYPE_CHOICES)
     job_search_status = models.CharField(max_length=30, choices=JOB_STATUS)
     phone_number = models.CharField(max_length=30, blank=True, null=True)
 
-
-    create_posts = models.BooleanField(default=True) # Done
-    create_wiki_posts = models.BooleanField(default=False) # Done
-    remove_new_user_restrictions = models.BooleanField(default=False) # Done
-    voteUpPriv = models.BooleanField(default=False) # Done
-    flag_posts = models.BooleanField(default=False) # Done
-    comment_everywhere_Priv = models.BooleanField(default=False) # Done
-    set_bounties = models.BooleanField(default=False) # Done
+    create_posts = models.BooleanField(default=True)  # Done
+    create_wiki_posts = models.BooleanField(default=False)  # Done
+    remove_new_user_restrictions = models.BooleanField(default=False)  # Done
+    voteUpPriv = models.BooleanField(default=False)  # Done
+    flag_posts = models.BooleanField(default=False)  # Done
+    comment_everywhere_Priv = models.BooleanField(default=False)  # Done
+    set_bounties = models.BooleanField(default=False)  # Done
     edit_community_wiki = models.BooleanField(default=False)
-    voteDownPriv = models.BooleanField(default=False) # Done
+    voteDownPriv = models.BooleanField(default=False)  # Done
     view_close_votes_Priv = models.BooleanField(default=False)
     access_review_queues = models.BooleanField(default=False)
-    established_user_Priv = models.BooleanField(default=False) # Done
-    create_tags = models.BooleanField(default=False) # Done
-    edit_questions_answers = models.BooleanField(default=False) # Done
-    cast_close_AND_Reopen_votes = models.BooleanField(default=False) # Done
+    established_user_Priv = models.BooleanField(default=False)  # Done
+    create_tags = models.BooleanField(default=False)  # Done
+    edit_questions_answers = models.BooleanField(default=False)  # Done
+    cast_close_AND_Reopen_votes = models.BooleanField(default=False)  # Done
     accessTo_moderatorTools = models.BooleanField(default=False)
-    protect_questions = models.BooleanField(default=False) # Done
+    protect_questions = models.BooleanField(default=False)  # Done
     trusted_user_Priv = models.BooleanField(default=False)
 
     helpful_flags_counter = models.IntegerField(default=0, blank=True, null=True)
@@ -133,7 +114,7 @@ class Profile(models.Model):
         return f'{self.user}'
 
     def get_absolute_url(self):
-        return reverse('profile:activityPageTabProfile', kwargs={'user_id': self.user_id,'username': self.user.username})
+        return reverse('profile:activityPageTabProfile', kwargs={'user_id': self.user_id, 'username': self.user.username})
 
     @property
     def age(self):
@@ -144,13 +125,13 @@ class Profile(models.Model):
     #     countComments = CommentQ.objects.filter(commented_by=self)
 
 
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)  # add this
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)  # add this
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
