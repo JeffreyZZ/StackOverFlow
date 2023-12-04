@@ -35,6 +35,8 @@ from review.models import ReviewCloseVotes,ReviewQuestionReOpenVotes
 from django.db.models import F
 import online_users.models
 from notification.models import PrivRepNotification
+from django.core.files.storage import FileSystemStorage
+
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
@@ -2247,7 +2249,7 @@ def hot_q_month_home(request):
 
 
 def activityPageTabProfile(request,user_id,username):
-    profileData = get_object_or_404(Profile, pk=user_id)
+    profileData = get_object_or_404(Profile, user_id=user_id)
     UserAnswers = Answer.objects.filter(answer_owner=profileData.user)
     goldBadges = TagBadge.objects.filter(awarded_to_user=profileData.user,badge_type="GOLD")[:3]
     silverBadges = TagBadge.objects.filter(awarded_to_user=profileData.user,badge_type="SILVER")[:3]
@@ -2593,9 +2595,7 @@ def bookmarksActivity(request, user_id, username):
 # @login_required
 # @cache_page(DEFAULT_TIMEOUT)
 def ActivityTabSummary(request, user_id, username):
-    profileData = get_object_or_404(Profile, pk=user_id)
-
-
+    profileData = get_object_or_404(Profile, user_id=user_id)
 
 # Question DIVs - START
     questionsCount = Question.objects.filter(post_owner=profileData.user).exclude(is_deleted=True).count()
@@ -2953,7 +2953,7 @@ def otherWithSame_Badge(request, tag):
 @unBanRequired
 @profileOwnerRequired_For_Edit
 def userProfileEdit_Settings(request, user_id):
-    profileData = get_object_or_404(Profile, id=user_id)
+    profileData = get_object_or_404(Profile, user_id=user_id)
 
     if request.method == 'POST':
         Edit_profile_form = EditProfileForm(data=request.POST,
@@ -2987,7 +2987,6 @@ def userProfileEdit_Settings(request, user_id):
 
     online_user_activity = get_object_or_404(queryset)
 
-
     context = {'Edit_profile_form': Edit_profile_form,'profileData':profileData,'online_user_activity':online_user_activity,}
     return render(request, 'profile/EditProfile.html', context)
 
@@ -2996,36 +2995,29 @@ def EditProfileAjaxForm(request, user_id):
     # data = get_object_or_404(Answer, pk=answer_id)
     # request should be ajax and method should be POST.
     if is_ajax(request) and request.method == "POST":
-        # get the form data
-        editProfile = EditProfileForm(instance=request.user.profile,
-                          data=request.POST,
-                          files=request.FILES)
-        # save the data and after fetch the object in instance
-        if editProfile.is_valid():
-            instance = editProfile.save()
-            if request.user.profile.about_me != '':
-                awardBadge = TagBadge.objects.get_or_create(awarded_to_user=request.user,badge_type="Bronze", tag_name="Autobiographer",bade_position="BADGE")
-                sendNotification = PrivRepNotification.objects.get_or_create(for_user=request.user, url="#", type_of_PrivNotify="BADGE_EARNED", for_if="Autobiographer")
+        request.user.profile.full_name = request.POST.get("full_name")
+        request.user.profile.location = request.POST.get("location")
+        request.user.profile.title = request.POST.get("title")
+        request.user.profile.about_me = request.POST.get("about_me")
+        request.user.profile.website_link = request.POST.get("website_link")
+        request.user.profile.twitter_link = request.POST.get("twitter_link")
+        request.user.profile.github_link = request.POST.get("github_link")
+        request.user.profile.not_to_Display_Full_name = request.POST.get("not_to_Display_Full_name")
+        if request.FILES != {}:
+            request.user.profile.profile_photo = request.FILES["image"]
+        request.user.profile.save()
 
-            # serialize in new friend object in json
-            new_instance = serializers.serialize('json', [
-                instance,
-            ])
-            # send to client side.
-            return JsonResponse({"instance": new_instance}, status=200)
-        else:
-            # some form errors occured.
-            return JsonResponse({"error": editProfile.errors}, status=400)
+        if request.user.profile.about_me != '':
+            awardBadge = TagBadge.objects.get_or_create(awarded_to_user=request.user,badge_type="Bronze", tag_name="Autobiographer",bade_position="BADGE")
+            sendNotification = PrivRepNotification.objects.get_or_create(for_user=request.user, url="#", type_of_PrivNotify="BADGE_EARNED", for_if="Autobiographer")
 
-    # some error occured
-    return JsonResponse({"error": ""}, status=400)
-
+        return JsonResponse({"instance": "SUCCESS"}, status=200)
 
 
 @unBanRequired
 @profileOwnerRequired_For_Edit
 def userProfileJonPrefrences_Settings(request, user_id):
-    profileData = get_object_or_404(Profile, pk=user_id)
+    profileData = get_object_or_404(Profile, user_id=user_id)
 
     if request.method == 'POST':
         editProfile_Job = EditJobPrefrences(request.POST,
@@ -3085,7 +3077,7 @@ def editProfile_JobPreAjax_Form(request, user_id):
 @unBanRequired
 @profileOwnerRequired_For_Edit
 def userProfileEdit_Email_Settings(request, user_id):
-    profileData = get_object_or_404(Profile, pk=user_id)
+    profileData = get_object_or_404(Profile, user_id=user_id)
     if request.method == 'POST':
         editEmail = EditEmailForm(request.POST,
                                  request.FILES,
