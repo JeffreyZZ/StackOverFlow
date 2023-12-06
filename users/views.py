@@ -39,7 +39,7 @@ def login_request(request):
                 login(request, user)
                 request.user.profile.logout_on_all_devices = False
                 request.user.profile.save()
-                messages.info(request, f"You are now logged in as {email}")
+                messages.info(request, f"You are now logged in as {request.user.first_name} {request.user.last_name} ({email})")
                 return redirect('/')
             else:
                 messages.error(request, "Invalid email or password.")
@@ -47,9 +47,7 @@ def login_request(request):
             messages.error(request, "Invalid email or password.")
     else:
         form = AuthenticationForm()
-    return render(request = request,
-                    template_name = "registration/login.html",
-                    context={"form":form})
+    return render(request = request, template_name = "registration/login.html", context={"form":form})
 
 
 def logout_view(request):

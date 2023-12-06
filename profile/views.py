@@ -2306,7 +2306,7 @@ def activityPageTabProfile(request,user_id,username):
 
 
 def developerStoryTab(request, user_id):
-    profileStory = get_object_or_404(Profile, user=profileData.user)
+    profileStory = get_object_or_404(Profile, user_id=user_id)
 
     context = {'profileStory':profileStory}
     return render(request, 'profile/developerStoryTab.html', context)
@@ -3006,6 +3006,15 @@ def EditProfileAjaxForm(request, user_id):
         if request.FILES != {}:
             request.user.profile.profile_photo = request.FILES["image"]
         request.user.profile.save()
+
+        if request.user.profile.full_name:
+            name_parts = request.user.profile.full_name.split()
+            if len(name_parts) >= 2:
+                request.user.first_name, request.user.last_name = name_parts[0], name_parts[-1]
+            if len(name_parts) == 1:
+                request.user.first_name, request.user.last_name = name_parts[0], ''
+            if len(name_parts) >= 1:
+                request.user.save()
 
         if request.user.profile.about_me != '':
             awardBadge = TagBadge.objects.get_or_create(awarded_to_user=request.user,badge_type="Bronze", tag_name="Autobiographer",bade_position="BADGE")
