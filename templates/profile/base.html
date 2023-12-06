@@ -70,7 +70,7 @@
 
         <li class="-item">
             <a href="{% url 'profile:ActivityTabSummary' user.id user.username %}" class="my-profile" >
-                <div class="gravatar-wrapper-24" title="{{request.user.username}}"><img src="{% if request.user.profile.profile_photo %}{{request.user.profile.profile_photo.url}}{% endif %}" alt="" width="24" height="24" class="bar-sm -avatar js-avatar-me"></div><span class="v-visible-sr">{{request.user.username}}</span>
+                <div class="gravatar-wrapper-24" title="{{request.user.profile.full_name}}"><img src="{% if request.user.profile.profile_photo %}{{request.user.profile.profile_photo.url}}{% endif %}" alt="" width="24" height="24" class="bar-sm -avatar js-avatar-me"></div><span class="v-visible-sr">{{request.user.profile.full_name}}</span>
 
                         <div class="-rep js-header-rep" title="your reputation: {{request.user|calculate_reputation}}" aria-hidden="true">{{request.user|calculate_reputation}}</div>
                         <span class="v-visible-sr">, {{request.user|calculate_reputation}} reputation</span>

@@ -2197,8 +2197,10 @@ def Votes_castActivity(request, user_id, username):
 
 # @login_required
 def home(request):
-
     context = {}
+    if request.user.is_authenticated:
+        request.user.username = request.user.first_name + ' ' + request.user.last_name
+        context = {'user': request.user }
     return render(request, 'profile/home.html', context)
 
 def bountied_home(request):
