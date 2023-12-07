@@ -143,7 +143,7 @@ DATABASES = {
          'ENGINE': 'django.db.backends.mysql',
          'NAME': 'quesnotion',
          'USER': 'root',
-         'PASSWORD': '',
+         'PASSWORD': 'User@123',
          'HOST': os.environ.get('DATABASE_HOST', 'localhost'), #'localhost',
          'PORT': '3306',
          'OPTIONS': {'charset': 'utf8mb4'},
