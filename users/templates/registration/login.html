@@ -1,4 +1,6 @@
 {% extends "profile/base.html" %}
+{% load humanize %}
+{% load static %}
 {% load qa_tags %}
 
 {% block content %}
@@ -7,6 +9,7 @@
 
     <head>
         <title>Log In - Stack Overflow</title>
+        <link href="{% static 'css/primary.css' %}" type="text/css" media="all" rel="stylesheet" />
     </head>
 
 
