@@ -12,33 +12,32 @@
     <html class=" ">
 
     <head>
-
+    
         <title>Edit - Stack Overflow</title>
         <link href="{% static 'MarkDown-Editor/plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
         <link href="{% static 'MarkDown-Editor/plugins/css/resizable.min.css' %}" type="text/css" media="all" rel="stylesheet" />
         <link href="{% static 'MarkDown-Editor/martor/css/martor.bootstrap.min.css' %}" type="text/css" media="all" rel="stylesheet" />
-
-<style>
-
-    a {
-        text-decoration: none !important;
-    }
-
-  .edit-review-message {
-    padding: .5em;
-    background-color: #FFFF99;
-    color: grey;
-  }
-
-  .form-errors {
-    padding: .5em;
-    background-color: red;
-    color: white;
-  }
-
-</style>
-
+        <link href="{% static 'css/primary.css' %}" type="text/css" media="all" rel="stylesheet" />
+    
+        <style>
+            a {
+                text-decoration: none !important;
+            }
+    
+            .edit-review-message {
+                padding: .5em;
+                background-color: #FFFF99;
+                color: grey;
+            }
+    
+            .form-errors {
+                padding: .5em;
+                background-color: red;
+                color: white;
+            }
+        </style>
     </head>
+
     <body class="ask-page unified-theme">
     <div id="notify-container"></div>
     <div id="custom-header"></div>
