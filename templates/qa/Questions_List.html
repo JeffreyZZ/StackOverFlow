@@ -1,3 +1,4 @@
+{% extends 'profile/base.html' %}
 {% load humanize %}
 {% load static %}
 {% load qa_tags %}
@@ -12,15 +13,9 @@
         <title>Questions - Stack Overflow-Clone</title>
         <link href="{% static 'notification/css/notification.css' %}" type="text/css" media="all" rel="stylesheet" />
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script async src="https://cdn.sstatic.net/Js/third-party/stacks/stacks.min.js?v=587378ef592b"></script>
         <script src="https://cdn.sstatic.net/Js/stub.en.js?v=218a32d1dba9"></script>
         
         <link href="{% static 'home/css/notification.css' %}" type="text/css" media="all" rel="stylesheet" />
-
-        <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Shared/stacks.css?v=15473555f232">
-        <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Sites/stackoverflow/primary.css?v=de9fb8b74f61">        
-        <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Shared/Channels/channels.css?v=47a5e0f03c81">
 
         <link href="{% static 'css/primary.css' %}" type="text/css" media="all" rel="stylesheet" />
     </head>
