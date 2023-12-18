@@ -2295,9 +2295,98 @@ document.addEventListener("DOMContentLoaded",function(){window.addEventListener(
 <!-- MARK - ACCEPT, UNACCEPT - END -->
 
 
-        <script>
-        $(document).ready(function(){$(".save-comment").on("click",function(){var t=$(this).data("data"),e=$(".comment-text-"+t).val();$(".user-username").val();$.ajax({url:"{% url 'qa:save_comment' data.id %}",type:"post",data:{comment:e,answerid:t,csrfmiddlewaretoken:"{{csrf_token}}"},dataType:"json",beforeSend:function(){$(".save-comment").addClass("disabled").text("saving...")},success:function(n){if(1==n.bool){$(".comment-text-"+t).val("");var a=`<ul class="comments-list js-comments-list">\n            <li id="comment-{{comment.id}}" class="comment js-comment " data-comment-id="{{comment.id}}" data-comment-owner-id="{{comment.commented_by.id}}" data-comment-score="0">\n\n                <div class="js-comment-actions comment-actions">\n                    <div class="comment-score js-comment-edit-hide">\n                    </div>\n                        \n                                    {% if request.user in comment.com_upvote.all %}\n                                    <button name='submit' type='submit' value="upVoteCommentIt"><i class="fas upvote-comment-active fa-sort-up fa-2x"></i></button>\n                                    {% else %}\n                                    <button name='submit' type='submit' value="upVoteCommentIt"><i class="fas upvote-comment-inactive fa-sort-up fa-2x"></i></button>\n                                    {% endif %}\n                                </span>\n                       \n                        <div class="comment-flagging js-comment-edit-hide">\n                            <button class="js-comment-flag s-btn s-btn__unset bg-transparent c-pointer fc-black-300 o40 h:fc-red-500 h:o100"\n                                    aria-label="Flag Comment"\n                                    aria-pressed="false"\n                                    title="Flag this comment for serious problems or moderator attention">\n                                <svg aria-hidden="true" class="svg-icon iconFlag" width="18" height="18" viewBox="0 0 18 18"><path d="M3 2v14h2v-6h3.6l.4 1h6V3H9.5L9 2H3Z"/></svg>\n                            </button>\n                        </div>\n                </div>\n\n                <div class="comment-text  js-comment-text-and-form">\n                    <div class="comment-body js-comment-edit-hide">\n                        \n                        <span class="comment-copy">${e}</span>\n                        \n                      <div class="d-inline-flex ai-center">\n        &ndash;&nbsp;<a href="{% url 'profile:activityPageTabProfile' data.post_owner.id data.post_owner.username %}"\n                                    title="16,021 reputation"\n                                    class="comment-user">{{request.user}}</a>\n                        </div>\n                        <span class="comment-date" dir="ltr"><span title="2021-12-08 10:40:00Z, License: CC BY-SA 4.0" class="relativetime-clean">{{comment.date|naturaltime}}</span></span>\n                                <span title="this comment was edited 2 times">\n                                    <svg aria-hidden="true" class="va-text-bottom o50 svg-icon iconPencilSm" width="14" height="14" viewBox="0 0 14 14"><path d="m11.1 1.71 1.13 1.12c.2.2.2.51 0 .71L11.1 4.7 9.21 2.86l1.17-1.15c.2-.2.51-.2.71 0ZM2 10.12l6.37-6.43 1.88 1.88L3.88 12H2v-1.88Z"/></svg>\n                                </span>\n                    </div>\n                </div>\n    </li>\n\n            </ul>`;$(".comment-wrapper-"+t).append(a);var s=$(".comment-count-"+t).text();$(".comment-count-"+t).text(parseInt(s)+1)}else 0==n.bool&&($(".contain").html("Write Something"),$(".contain").hide(2e3));$(".save-comment").removeClass("disabled").text("Submit")}})})});
-        </script>
+<script>
+    $(document).ready(function () {
+        $(".save-comment").on("click", function () {
+            var t = $(this).data("data"),
+                e = $(".comment-text-" + t).val();
+            $(".user-username").val();
+            $.ajax({
+                url: "{% url 'qa:save_comment' data.id %}",
+                type: "post",
+                data: {
+                    comment: e,
+                    answerid: t,
+                    csrfmiddlewaretoken: "{{csrf_token}}",
+                },
+                dataType: "json",
+                beforeSend: function () {
+                    $(".contain").html('');
+                    $(".save-comment").addClass("disabled").text("saving...");
+                    console.log("Save button is disabled. Saving in progress...");
+                },
+                success: function (n) {
+                    console.log("Save succeeded.");
+                    if (1 == n.bool) {
+                        $(".comment-text-" + t).val("");
+                        var a = `
+                            <ul class="comments-list js-comments-list">
+                                <li id="comment-{{comment.id}}" class="comment js-comment " data-comment-id="{{comment.id}}" data-comment-owner-id="{{comment.commented_by.id}}" data-comment-score="0">
+
+                                    <div class="js-comment-actions comment-actions">
+                                        <div class="comment-score js-comment-edit-hide"></div>
+                                            
+                                        {% if request.user in comment.com_upvote.all %}
+                                            <button name='submit' type='submit' value="upVoteCommentIt">
+                                                <i class="fas upvote-comment-active fa-sort-up fa-2x"></i>
+                                            </button>
+                                        {% else %}
+                                            <button name='submit' type='submit' value="upVoteCommentIt">
+                                                <i class="fas upvote-comment-inactive fa-sort-up fa-2x"></i>
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div la -comment-edit-hide">
+                                        <button class="js -c o mment - flag s-btn s-btn__uns e t  bg-transparent c- p ointer fc -black-300 o40 h:fc-red-50 0 h:o100 "
+                                            aria-label="Fla g Com m ent"
+                                            aria-pressed="f al se"
+                                            title="Flag this comment for serious problems or moder at or atten tion">
+                                            <svg aria-hidden="tru e" class="svg-icon iconFlag" width="18" height="18" viewBox="0 0 18 18"><path d="M3 2v14h2v-6h3.6l.4 1h6V3H9.5L9 2H3Z"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="comment-text  js-comment-text-and-form">
+                                    <div class="comment-body js-comment-edit-hide">
+                                        <span class="comment-copy">${e}</span>
+
+                                        <div class="d-inline-flex ai-center">
+                                            &ndash;&nbsp;<a href="{% url 'profile:activityPageTabProfile' data.post_owner.id data.post_owner.username %}"
+                                                title="16,021 reputation"
+                                                class="comment-user">{{request.user}}</a>
+                                        </div>
+                                        
+                                        <span class="comment-date" dir="ltr">
+                                            <span title="2021-12-08 10:40:00Z, License: CC BY-SA 4.0" class="relativetime-clean">{{comment.date|naturaltime}}</span>
+                                        </span>
+
+                                        <span title="this comment was edited 2 times">
+                                            <svg aria-hidden="true" class="va-text-bottom o50 svg-icon iconPencilSm" width="14" height="14" viewBox="0 0 14 14"><path d="m11.1 1.71 1.13 1.12c.2.2.2.51 0 .71L11.1 4.7 9.21 2.86l1.17-1.15c.2-.2.51-.2.71 0ZM2 10.12l6.37-6.43 1.88 1.88L3.88 12H2v-1.88Z"/></svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>`;
+                        $(".comment-wrapper-" + t).append(a);
+                        var s = $(".comment-count-" + t).text();
+                        $(".comment-count-" + t).text(parseInt(s) + 1);
+                    } else if (0 == n.bool) {
+                        if (n.action && n.action.trim()) {
+                            $(".contain").html(n.action);
+                        }
+                        else {
+                            $(".contain").html("Write Something");
+                        }
+                        // $(".contain").hide(3000);
+                        // $(".contain").html('');
+                    }
+                    $(".save-comment").removeClass("disabled").text("Submit");
+                },
+            });
+        });
+    });
+</script>
 
 {% endblock js %} 
 

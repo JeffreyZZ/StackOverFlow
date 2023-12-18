@@ -581,8 +581,7 @@ def save_comment(request, question_id):
             else:
                 return JsonResponse({'bool': False})
         else:
-            return JsonResponse(
-                {'action': "Need atleast 50 Reputation to Comment"})
+            return JsonResponse({'action': "Need at least 50 Reputation to Comment", 'bool': False})
 
 
 def load_question_upvotes_downvotes(request, question_id):
