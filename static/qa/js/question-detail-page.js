@@ -1,4 +1,4 @@
-    document.addEventListener('DOMContentLoaded', function() {
+/*     document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('load', function() {
             $('.AcceptForm').submit(function(e) {
                 e.preventDefault();
@@ -13,7 +13,7 @@
                     async: false,
                     success: function(response) {
                         if (response.action == 'unaccept') {
-                            $(`#id_accept${thisElement.attr('data-pk')}`).html(`<button name='submit' type='submit' value="accept"><i class="wrong far fa-check fa-3x"></i></button><br><img class="unaccept-loading-image" src="{% static 'preloader.gif' %}"></img>`)
+                            $(`#id_accept${thisElement.attr('data-pk')}`).html(`<button name='submit' type='submit' value="accept"><i class="wrong far fa-check fa-3x"></i></button><br><img class="unaccept-loading-image" src="{% static 'preloader.gif+' %}"></img>`)
                             $('.unaccept-loading-image').show();
                             $('.unaccept-loading-image').fadeOut(1000);
                         }
@@ -99,7 +99,7 @@
                             });
                             $('.js-toast').fadeOut(8000);
                         } else { // Accept Only
-                            $(`#id_accept${thisElement.attr('data-pk')}`).html(`<button name='submit' type='submit' value="accept"><i  class="correct far fa-check fa-3x"></i></button><br><img class="accept-loading-image" src="{% static 'preloader.gif' %}"></img>`)
+                            $(`#id_accept${thisElement.attr('data-pk')}`).html(`<button name='submit' type='submit' value="accept"><i  class="correct far fa-check fa-3x"></i></button><br><img class="accept-loading-image" src="{% static 'preloader.gif++' %}"></img>`)
                             $('.toast-container').html(
                                 `<div data-delay="5000" class="s-toast js-toast fade" aria-hidden="false" style="top: 60px;">
     <aside class="s-notice s-notice__info">
@@ -134,7 +134,7 @@
             })
         })
     })
-
+ */
 document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('load', function() {
             $('.AwardForm').submit(function(e) {
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     async: false,
                     success: function(response) {
                         if (response.action == 'awardBountyToIt') { // Accept Only
-                            $(`#id_award${thisElement.attr('data-pk')}`).html(`<button name='submit' type='submit' value="Award"><i  class="awarded fad fa-award fa-3x"></i></button><br><img class="accept-loading-image" src="{% static 'preloader.gif' %}"></img>`)
+                            $(`#id_award${thisElement.attr('data-pk')}`).html(`<button name='submit' type='submit' value="Award"><i  class="awarded fad fa-award fa-3x"></i></button><br><img class="accept-loading-image" src="{% static '+++' %}"></img>`)
                             $('.toast-container').html(
                                 `<div data-delay="5000" class="s-toast js-toast fade" aria-hidden="false" style="top: 60px;">
     <aside class="s-notice s-notice__info">
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     async: false,
                     success: function(response) {
                         if (response.action == 'awardBountyToIt') { // Accept Only
-                            $(`#id_award${thisElement.attr('data-pk')}`).html(`<button name='submit' type='submit' value="Award"><i  class="correct far fa-check fa-3x"></i></button><br><img class="accept-loading-image" src="{% static 'preloader.gif' %}"></img>`)
+                            $(`#id_award${thisElement.attr('data-pk')}`).html(`<button name='submit' type='submit' value="Award"><i  class="correct far fa-check fa-3x"></i></button><br><img class="accept-loading-image" src="{% static 'preloader.gif++++' %}"></img>`)
                             $('.toast-container').html(
                                 `<div data-delay="5000" class="s-toast js-toast fade" aria-hidden="false" style="top: 60px;">
     <aside class="s-notice s-notice__info">
@@ -327,7 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     async: false,
                     success: function(response) {
                         if (response.action == 'lackOfPrivelege') { // Accept Only
-                            $(`#unpro${thisElement.attr('data-pk')}`).html(`<br><img class="accept-loading-image" src="{% static 'preloader.gif' %}"></img>`)
+                            $(`#unpro${thisElement.attr('data-pk')}`).html(`<br><img class="accept-loading-image" src="{% static 'preloader.gif+++++' %}"></img>`)
                             $('.toast-container').html(
                                 `<div data-delay="5000" class="s-toast js-toast fade" aria-hidden="false" style="top: 60px;">
     <aside class="s-notice s-notice__info">

@@ -2960,7 +2960,7 @@ def reviewSuggesstedEdit(request, reviewquestionedit_id):
         getThisItemFromReview = ReviewQuestionEdit.objects.filter(
             answer_to_view_if=data, is_reviewed=False).first()
         getReviewersByVote = QuestionEditVotes.objects.filter(
-            edited_answer=data, is_completed=True).first()
+            edited_answer=data, is_completed=True)
         lastVoteWas = ReviewQuestionEdit.objects.filter(
             answer_to_view_if=data).last()
         getQuestionFromAnswer = Question.objects.get(answer=data)

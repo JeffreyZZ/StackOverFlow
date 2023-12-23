@@ -2032,8 +2032,10 @@ document.addEventListener("DOMContentLoaded",function(){window.addEventListener(
 
     document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('load', function() {
+                var preloaderUrl = "{% static 'preloader.gif' %}";
                 $(`.showVotesDiv`).on('click', function(e) {
-                $(`.result-div`).html(`<img class="accept-loading-image" src="{% static 'preloader.gif' %}"></img>`)
+                $(`.result-div`).html(`<img class="accept-loading-image"></img>`)
+                $('.accept-loading-image').attr('src', preloaderUrl);
                 // e.preventDefault();
                 let thisDiv = $(this);
 
@@ -2095,8 +2097,10 @@ document.addEventListener("DOMContentLoaded",function(){window.addEventListener(
 
     document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('load', function() {
+                var preloaderUrl = "{% static 'preloader.gif' %}";
                 $(`.showanswer-VotesDiv`).on('click', function(e) {
-                $(`.result-answer-div`).html(`<img class="accept-loading-image" src="{% static 'preloader.gif' %}"></img>`)
+                $(`.result-answer-div`).html(`<img class="accept-loading-image"></img>`)
+                $('.accept-loading-image').attr('src', preloaderUrl);
                 // e.preventDefault();
                 let thisDiv = $(this);
 
@@ -2159,6 +2163,7 @@ document.addEventListener("DOMContentLoaded",function(){window.addEventListener(
             $('.AcceptForm').submit(function(e) {
                 e.preventDefault();
                 let thisElement = $(this)
+                var preloaderUrl = "{% static 'preloader.gif' %}";
                 $.ajax({
                     url: thisElement.attr('action'),
                     data: {
@@ -2168,8 +2173,10 @@ document.addEventListener("DOMContentLoaded",function(){window.addEventListener(
                     method: 'get',
                     async: false,
                     success: function(response) {
+                        console.log("preloaderUrl:" + preloaderUrl);
                         if (response.action == 'unaccept') {
-                            $(`#id_accept${thisElement.attr('data-pk')}`).html(`<button name='submit' type='submit' value="accept"><i class="wrong far fa-check fa-3x"></i></button><br><img class="unaccept-loading-image" src="{% static 'preloader.gif' %}"></img>`)
+                            $(`#id_accept${thisElement.attr('data-pk')}`).html(`<button name='submit' type='submit' value="accept"><i class="wrong far fa-check fa-3x"></i></button><br><img class="unaccept-loading-image"></img>`)
+                            $('.unaccept-loading-image').attr('src', preloaderUrl);
                             $('.unaccept-loading-image').show();
                             $('.unaccept-loading-image').fadeOut(1000);
                         }
@@ -2255,7 +2262,7 @@ document.addEventListener("DOMContentLoaded",function(){window.addEventListener(
                             });
                             $('.js-toast').fadeOut(8000);
                         } else { // Accept Only
-                            $(`#id_accept${thisElement.attr('data-pk')}`).html(`<button name='submit' type='submit' value="accept"><i  class="correct far fa-check fa-3x"></i></button><br><img class="accept-loading-image" src="{% static 'preloader.gif' %}"></img>`)
+                            $(`#id_accept${thisElement.attr('data-pk')}`).html(`<button name='submit' type='submit' value="accept"><i  class="correct far fa-check fa-3x"></i></button><br><img class="accept-loading-image"></img>`)
                             $('.toast-container').html(
                                 `<div data-delay="5000" class="s-toast js-toast fade" aria-hidden="false" style="top: 60px;">
     <aside class="s-notice s-notice__info">
@@ -2278,6 +2285,7 @@ document.addEventListener("DOMContentLoaded",function(){window.addEventListener(
     </aside>
 </div>`
                             );
+                            $('.accept-loading-image').attr('src', preloaderUrl);
                             $('.accept-loading-image').show();
                             $('.accept-loading-image').fadeOut(1000);
                             $(".toast").toast('show', {
