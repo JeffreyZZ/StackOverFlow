@@ -1730,9 +1730,7 @@ def rewardPrivielege(request, which_user):
     This view will reward privilege to user when called
     within a view with "user" argument to award
     """
-    getAlltheReputation = Reputation.objects.filter(
-        awarded_to=which_user).aggregate(
-        Sum('answer_rep_C'), Sum('question_rep_C'))
+    getAlltheReputation = Reputation.objects.filter(awarded_to=which_user).aggregate(Sum('answer_rep_C'), Sum('question_rep_C'))
     Q_rep = getAlltheReputation['question_rep_C__sum']
     final_Q_Rep = getAlltheReputation['question_rep_C__sum'] if Q_rep else 0
     A_rep = getAlltheReputation['answer_rep_C__sum']
@@ -2134,8 +2132,7 @@ def reviewSuggesstedEdit(request, reviewquestionedit_id):
                             question_O=getQuestion,
                             question_rep_C=2,
                             reputation_on_what="EDIT")
-                        rewardPrivielege(
-                            request, getVoteItem.edit_suggested_by)
+                        rewardPrivielege(request, getVoteItem.edit_suggested_by)
                         getVoteItem.is_completed = True
                         question_URL = request.build_absolute_uri(
                             getQuestion.get_absolute_url())
@@ -2655,8 +2652,7 @@ def reviewSuggesstedEdit(request, reviewquestionedit_id):
                             answer_O=getAnswer,
                             question_rep_C=2,
                             reputation_on_what="EDIT")
-                        rewardPrivielege(
-                            request, getVoteItem.edit_suggested_by)
+                        rewardPrivielege(request, getVoteItem.edit_suggested_by)
                         getVoteItem.is_completed = True
                         getReviewItem.is_reviewed = True
                         getReviewItem.save()
@@ -3736,8 +3732,7 @@ def reOpen_Question_Review(request, reviewquestionreopenvotes_id):
                                 question_O=post,
                                 question_rep_C=+2,
                                 reputation_on_what='question_reopen_voted')
-                            rewardPrivielege(
-                                request, getUNCloseHistorys.user.post_owner)
+                            rewardPrivielege(request, getUNCloseHistorys.user.post_owner)
                             questionUNClose.is_completed = True
                             questionUNClose.what_happend = "Ended_Through_Open"
                             # REOPEN THE QUESTION - HERE -

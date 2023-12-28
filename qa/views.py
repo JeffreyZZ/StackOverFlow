@@ -300,9 +300,7 @@ def rewardPrivielege(request, which_user):
     This view will reward privilege to user when called
     within a view with "user" argument to award
     """
-    getAlltheReputation = Reputation.objects.filter(
-        awarded_to=which_user).aggregate(
-        Sum('answer_rep_C'), Sum('question_rep_C'))
+    getAlltheReputation = Reputation.objects.filter(awarded_to=which_user).aggregate(Sum('answer_rep_C'), Sum('question_rep_C'))
     Q_rep = getAlltheReputation['question_rep_C__sum']
     final_Q_Rep = getAlltheReputation['question_rep_C__sum'] if Q_rep else 0
     A_rep = getAlltheReputation['answer_rep_C__sum']
@@ -3366,8 +3364,7 @@ def award_InformedBadge_OnScroll(request):
 def question_upvote_downvote(request, question_id):
     post = get_object_or_404(Question, pk=question_id)
     likepost = post.qupvote_set.filter(upvote_by_q=request.user).first()
-    downVotedPost = post.qdownvote_set.filter(
-        downvote_by_q=request.user).first()
+    downVotedPost = post.qdownvote_set.filter(downvote_by_q=request.user).first()
     question_URL = request.build_absolute_uri(post.get_absolute_url())
 
     upvote_time_limit = timezone.now() - timedelta(minutes=5)
@@ -3395,16 +3392,11 @@ def question_upvote_downvote(request, question_id):
         )
 
     last_24_hours = timezone.now() - timedelta(hours=24)
-    getQ_Votes_in_24_Hours = QUpvote.objects.filter(
-        date__gt=last_24_hours).count()
-    getQ_DownVotes_in_24_Hours = QDownvote.objects.filter(
-        downvote_by_q=request.user, date__gt=last_24_hours).count()
-    getA_Votes_in_24_Hours = Answer.objects.filter(
-        a_vote_ups=request.user, date__gt=last_24_hours).count()
-    getA_DownVotes_in_24_Hours = Answer.objects.filter(
-        a_vote_downs=request.user, date__gt=last_24_hours).count()
-    totalIs = getQ_Votes_in_24_Hours + getQ_DownVotes_in_24_Hours + \
-        getA_Votes_in_24_Hours + getA_DownVotes_in_24_Hours
+    getQ_Votes_in_24_Hours = QUpvote.objects.filter(date__gt=last_24_hours).count()
+    getQ_DownVotes_in_24_Hours = QDownvote.objects.filter(downvote_by_q=request.user, date__gt=last_24_hours).count()
+    getA_Votes_in_24_Hours = Answer.objects.filter(a_vote_ups=request.user, date__gt=last_24_hours).count()
+    getA_DownVotes_in_24_Hours = Answer.objects.filter(a_vote_downs=request.user, date__gt=last_24_hours).count()
+    totalIs = getQ_Votes_in_24_Hours + getQ_DownVotes_in_24_Hours + getA_Votes_in_24_Hours + getA_DownVotes_in_24_Hours
 
     if totalIs >= 30:
         TagBadge.objects.get_or_create(
@@ -3442,10 +3434,7 @@ def question_upvote_downvote(request, question_id):
     sent = False
     # Upvote
     if request.GET.get('submit') == 'like':
-        if QDownvote.objects.filter(
-                downvote_by_q=request.user,
-                downvote_question_of=post).exists():
-
+        if QDownvote.objects.filter(downvote_by_q=request.user, downvote_question_of=post).exists():
             if downVotedPost.date > upvote_time_limit or edited_time > downVotedPost.date:
                 QDownvote.objects.filter(
                     downvote_by_q=request.user,
@@ -3528,6 +3517,7 @@ def question_upvote_downvote(request, question_id):
             if request.user == post.post_owner:
                 return JsonResponse({'action': 'cannotLikeOwnPost'})
             else:
+                rewardPrivielege(request, request.user)
                 if request.user.profile.voteUpPriv:
                     post.q_reputation += 10
                     post.save()
@@ -3735,7 +3725,7 @@ def question_upvote_downvote(request, question_id):
             if request.user == post.post_owner:
                 return JsonResponse({'action': 'cannotLikeOwnPost'})
             else:
-
+                rewardPrivielege(request, request.user)
                 if request.user.profile.voteDownPriv:
                     # QUESTION REPUTATION
                     created = QDownvote(
@@ -3788,20 +3778,15 @@ Removed the decorator because have to design a new decorator with
 answer_id, the previous one was for question_id
 """
 # @awardReputation
-
-
 def answer_upvote_downvote(request, answer_id):
     # que = get_object_or_404(Question, pk=question_id)
     post = get_object_or_404(Answer, pk=answer_id)
-    question_URL = request.build_absolute_uri(
-        post.questionans.get_absolute_url())
+    question_URL = request.build_absolute_uri(post.questionans.get_absolute_url())
 
     getQuestion = Question.objects.get(answer=post)
 
-    getVotedOnQ = Question.objects.filter(
-        qupvote__upvote_by_q=request.user).count()
-    getVotedOnQ_Down = Question.objects.filter(
-        qdownvote__downvote_by_q=request.user).count()
+    getVotedOnQ = Question.objects.filter(qupvote__upvote_by_q=request.user).count()
+    getVotedOnQ_Down = Question.objects.filter(qdownvote__downvote_by_q=request.user).count()
     getVotedOn = Answer.objects.filter(a_vote_ups=request.user).count()
     getVotedOn_Down = Answer.objects.filter(a_vote_downs=request.user).count()
     if getVotedOn >= 300 or getVotedOn_Down >= 300 or getVotedOnQ >= 300 or getVotedOnQ_Down >= 300:
@@ -3895,16 +3880,11 @@ def answer_upvote_downvote(request, answer_id):
         )
 
     last_24_hours = timezone.now() - timedelta(hours=24)
-    getQ_Votes_in_24_Hours = QUpvote.objects.filter(
-        date__gt=last_24_hours).count()
-    getQ_DownVotes_in_24_Hours = QDownvote.objects.filter(
-        downvote_by_q=request.user, date__gt=last_24_hours).count()
-    getA_Votes_in_24_Hours = Answer.objects.filter(
-        a_vote_ups=request.user, date__gt=last_24_hours).count()
-    getA_DownVotes_in_24_Hours = Answer.objects.filter(
-        a_vote_downs=request.user, date__gt=last_24_hours).count()
-    totalIs = getQ_Votes_in_24_Hours + getQ_DownVotes_in_24_Hours + \
-        getA_Votes_in_24_Hours + getA_DownVotes_in_24_Hours
+    getQ_Votes_in_24_Hours = QUpvote.objects.filter(date__gt=last_24_hours).count()
+    getQ_DownVotes_in_24_Hours = QDownvote.objects.filter(downvote_by_q=request.user, date__gt=last_24_hours).count()
+    getA_Votes_in_24_Hours = Answer.objects.filter(a_vote_ups=request.user, date__gt=last_24_hours).count()
+    getA_DownVotes_in_24_Hours = Answer.objects.filter(a_vote_downs=request.user, date__gt=last_24_hours).count()
+    totalIs = getQ_Votes_in_24_Hours + getQ_DownVotes_in_24_Hours + getA_Votes_in_24_Hours + getA_DownVotes_in_24_Hours
 
     if totalIs >= 30:
         TagBadge.objects.get_or_create(
