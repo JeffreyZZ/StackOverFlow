@@ -34,6 +34,8 @@ def advanced_percentage_without_profile(from_how_much):
 
 @register.filter
 def calculate_remaining_time(queryset):
+    if (queryset is None) or (str(queryset).strip()==''):
+        return None
     from_7_days = timezone.now() - timedelta(days=7)
     return queryset - from_7_days
 
