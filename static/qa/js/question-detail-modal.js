@@ -1,6 +1,13 @@
     var modalBounty = document.getElementById("bounty-model-content");
     var btn = document.getElementById("bounty-model-open-button");
-    var span = document.getElementsByClassName("close")[0]; 
+    var closeElements = document.getElementsByClassName("close"); 
+    var span = closeElements[0]
+    for (var i = 0; i < closeElements.length; i++) {
+      if (closeElements[i].tagName === 'SPAN') {
+          span = closeElements[i];
+          break;
+      }
+    }
     btn.onclick = function () {
       modalBounty.style.display = "block";
     }
@@ -38,7 +45,7 @@ $(document).ready(function() {
         ' 24" xml:space="preserve"></svg>'
     );
 
-function createSVG(tag, attrs) {
+    function createSVG(tag, attrs) {
       var elt = document.createElementNS("http://www.w3.org/2000/svg", tag);
       for (var k in attrs) elt.setAttribute(k, attrs[k]);
       return elt;
@@ -59,14 +66,16 @@ function createSVG(tag, attrs) {
       document.getElementById("svg_from_section").appendChild(bountyCircle);
     }
 
-    var bountyCircle = createSVG("circle", {
-      cx: positionX + 200,
-      cy: 12,
-      r: 12,
-      width: positionX,
-      height: 6
-    });
-    document.getElementById("svg_from_section").appendChild(bountyCircle);
+    if (BountyLength > 0) {
+      var bountyCircle = createSVG("circle", {
+        cx: positionX + 200,
+        cy: 12,
+        r: 12,
+        width: positionX,
+        height: 6
+      });
+      document.getElementById("svg_from_section").appendChild(bountyCircle);
+    }
 
     $('#svg_from_section rect').css('fill',base_color_bounty);
     $('#svg_from_section circle').css('fill',base_color_bounty);
