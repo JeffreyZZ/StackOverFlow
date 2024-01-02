@@ -40,6 +40,7 @@ from django.forms.models import model_to_dict
 from itertools import compress
 import re
 from django.contrib.auth.decorators import login_required
+from qa.templatetags.qa_tags import calculate_reputation
 
 """
 Refrence of build_absolute_uri -
@@ -1162,6 +1163,10 @@ def AjaxBountyForm(request, question_id):
             if request.user.profile.set_bounties:
                 formCleanedData = bounty_form.cleaned_data['bounty_value']
                 print(formCleanedData)
+                # check if the user has enough reputation to set bounties.
+                availableReputation = calculate_reputation(request.user)
+                if availableReputation < int(formCleanedData):
+                    return JsonResponse({'error': "No enough reputation."}, status=400)
                 # created = False
                 new_post = bounty_form.save(commit=False)
                 new_post.by_user = request.user
