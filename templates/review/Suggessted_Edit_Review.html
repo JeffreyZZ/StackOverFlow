@@ -6,94 +6,79 @@
 
 
 
-
-
-<html class="html__responsive html__unpinned-leftnav"><head>
-
+<html class="html__responsive html__unpinned-leftnav">
+    <head>
+    
         <title>Review Suggested edits - Stack Overflow</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script async="" src="https://cdn.sstatic.net/Js/third-party/stacks/stacks.min.js?v=4c00f8ce1b14"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Shared/stacks.css?v=556e4333f24c">
-        <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Sites/stackoverflow/primary.css?v=34c234f84be8">
-        <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Sites/stackoverflow/secondary.css?v=bbf1061b903d">
-        <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css" rel="stylesheet" type="text/css" />    
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Shared/Channels/channels.css?v=47a5e0f03c81">
-        
-<style>
-
-    .logo-name {
-        padding: 8px;
-        color: #568;
-        border: 1px solid white;
-        font-family: 'Nexa';
-        src: url(...);
-        font-weight: 500;
-        font-style: normal;
-    }
-
-    .fa-stack-overflow {
-        color: blue;
-    }
-
-</style>
-</head>
+    
+        <link href="{% static 'css/primary.css' %}" type="text/css" media="all" rel="stylesheet" />
+        <link href="{% static 'css/stacks.css' %}" type="text/css" media="all" rel="stylesheet" />
+    
+        <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Shared/stacks.css?v=1600cb081e8c">
+        <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Sites/stackoverflow/primary.css?v=8758134482da">
+    
+        <style>
+            .logo-name {
+                padding: 8px;
+                color: #568;
+                border: 1px solid white;
+                font-family: 'Nexa';
+                src: url(...);
+                font-weight: 500;
+                font-style: normal;
+            }
+    
+            .fa-stack-overflow {
+                color: blue;
+            }
+        </style>
+    </head>
+    
     <body class="review-task-page unified-theme">
-    <div id="notify-container"></div>
-    <div id="custom-header"></div>
-        
-
-<style>
-
-    .fa, .fas {
-    font-family: 'Font Awesome 5 Pro';
-    font-weight: 600 !important;
-}
-
-.unseen-reputation {
-  background-color: green;
-  border-radius: 1em;
-  color: white;
- 
-  padding: 1px 3px;
-  font-size: 10px;
-  
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-
-
-.button__badge {
-  background-color: #fa3e3e;
-  border-radius: 1em;
-  color: white;
- 
-  padding: 1px 3px;
-  font-size: 10px;
-  
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-</style>
-
-<style>
-
-    .fa, .fas {
-    font-family: 'Font Awesome 5 Pro';
-    font-weight: 600 !important;
-}
-
-</style>
-
-
-
-
+        <div id="notify-container"></div>
+        <div id="custom-header"></div>
+    
+        <style>
+            .fa,
+            .fas {
+                font-family: 'Font Awesome 5 Pro';
+                font-weight: 600 !important;
+            }
+    
+            .unseen-reputation {
+                background-color: green;
+                border-radius: 1em;
+                color: white;
+    
+                padding: 1px 3px;
+                font-size: 10px;
+    
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+    
+            .button__badge {
+                background-color: #fa3e3e;
+                border-radius: 1em;
+                color: white;
+    
+                padding: 1px 3px;
+                font-size: 10px;
+    
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        </style>
+    
 
 {% if request.user.is_authenticated %}
-
 
 <header class="top-bar js-top-bar top-bar__network">
     <div class="wmx12 mx-auto d-flex ai-center h100" role="menubar">

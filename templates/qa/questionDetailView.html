@@ -268,7 +268,7 @@
                                 <a href="{% url 'qa:edit_question' data.id %}" class="js-suggest-edit-post" title="Revise and improve this post">Edit</a>
                             </div>
                         {% else %}
-                        {% if request.user.profile %} <!--User has logged in-->
+                        {% if request.user.is_authenticated %}
                             <script>
                                 $(function () {
                                     $('[data-toggle="popover"]').popover()
