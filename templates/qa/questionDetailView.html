@@ -264,25 +264,22 @@
                         </div>
 
                         {% if canMakeAnotherEdit == True %}
-
                             <div class="flex--item">
                                 <a href="{% url 'qa:edit_question' data.id %}" class="js-suggest-edit-post" title="Revise and improve this post">Edit</a>
                             </div>
-
                         {% else %}
-                        <script>
-                            $(function () {
-                          $('[data-toggle="popover"]').popover()
-                        })
-                        </script>
-
+                        {% if request.user.profile %} <!--User has logged in-->
+                            <script>
+                                $(function () {
+                                    $('[data-toggle="popover"]').popover()
+                                })
+                            </script>
 
                             <div class="flex--item">
                                 <a href="#" data-toggle="popover" title="Previous Edit Waiting for Review" data-content="Previous Edit is Waiting for Review. Come Back Later" onclick="return false;">Edit Question</a>
                             </div>
-
                         {% endif %}
-
+                        {% endif %}
 
                         {% if request.user.profile.accessTo_moderatorTools %}
                         <div class="flex--item">
