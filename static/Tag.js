@@ -8,8 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
           });
         }
 
+        // Remove the trailing comma if present in the raw tags string
+        var tagsElement = document.getElementById('choices-text-remove-button');
+        tagsElement.value = tagsElement.value.replace(/,\s*$/, '');
         var textRemove = new Choices(
-          document.getElementById('choices-text-remove-button'),
+          tagsElement,
           {
             delimiter: ',',
             editItems: true,
