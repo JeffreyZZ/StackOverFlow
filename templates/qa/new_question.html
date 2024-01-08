@@ -266,43 +266,51 @@ site design / logo &#169; 2021 Stack Exchange Inc; user contributions licensed u
 
 
 <style>
+  .error_message_of_tag {
+    color: red;
+  }
 
-.error_message_of_tag {
-  color: red;
-}
+  .error_message_of_title {
+    color: red;
+  }
 
-.error_message_of_title {
-  color: red;
-}
+  .error_message_of_body_text {
+    color: red;
+  }
 
-.error_message_of_body_text {
-  color: red;
-}
+  .shortPostTitle {
+    color: red;
+  }
 
-.shortPostTitle {
-  color: red;
-}
+  .error_message_of_new_tag {
+    color: red;
+  }
 
-.error_message_of_new_tag {
-  color: red;
-}
+  .missingTextBodyError {
+    color: red;
+  }
 
-.missingTextBodyError {
-  color: red;
-}
+  .missingTitleError {
+    color: red;
+  }
 
-.missingTitleError {
-  color: red;
-}
+  .shortPostBody {
+    color: red;
+  }
 
-.shortPostBody {
-  color: red;
-}
+  .seeErrorBelow {
+    color: red;
+  }
 
-.seeErrorBelow {
-  color: red;
-}
-
+  /*
+  Bugfix: .choices__input of choices.min.css is overridden by primary.css for some reason. 
+  to work around this issue, re-enforce it here in place. 
+  */
+  .choices__input {
+    padding: 4px 0 4px 2px !important;
+    background-color: #f9f9f9 !important;
+    font-size: 14px !important;
+  }
 </style>
 
 <script src="{% static 'Tags/choices.min.js' %}"></script>

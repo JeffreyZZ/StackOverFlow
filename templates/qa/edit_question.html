@@ -10,28 +10,38 @@
 
 <head>
     <title>Edit - Stack Overflow</title>
-    <link rel="stylesheet" href="{% static 'Tags/choices.min.css' %}" />
     <link href="{% static 'MarkDown-Editor/plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
     <link href="{% static 'MarkDown-Editor/plugins/css/resizable.min.css' %}" type="text/css" media="all" rel="stylesheet" />
     <link href="{% static 'MarkDown-Editor/martor/css/martor.bootstrap.min.css' %}" type="text/css" media="all" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Shared/stacks.css?v=1600cb081e8c">
     <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Sites/stackoverflow/primary.css?v=8758134482da">
+    <link rel="stylesheet" type="text/css" href="{% static 'Tags/choices.min.css' %}" />
 
     <style>
         a {
             text-decoration: none !important;
         }
-
+    
         .edit-review-message {
             padding: .5em;
             background-color: #FFFF99;
             color: grey;
         }
-
+    
         .form-errors {
             padding: .5em;
             background-color: red;
             color: white;
+        }
+    
+        /*
+        Bugfix: .choices__input of choices.min.css is overridden by primary.css for some reason. 
+        to work around this issue, re-enforce it here in the file.  
+        */
+        .choices__input {
+            padding: 4px 0 4px 2px !important;
+            background-color: #f9f9f9 !important;
+            font-size: 14px !important;
         }
     </style>
 </head>
@@ -287,7 +297,7 @@
     <div id="onetrust-style" class="d-none">&nbsp;</div>
     <div class="d-none js-consent-banner-version" data-consent-banner-version="baseline"></div>
 
-    <script src="{% static 'Tags/choices.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'Tags/choices.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'plugins/js/jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'Tag.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript" charset="utf-8"></script>
