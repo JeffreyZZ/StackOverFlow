@@ -2682,8 +2682,7 @@ def new_question(request):
 
                     else:
                         print("Problem 2")
-                        messages.error(
-                            request, f'You need atleast 1500 Reputation to create a New Tag - {formTags}')
+                        messages.error(request, f'You need atleast 1500 Reputation to create a New Tag - {formTags}')
 
             else:
                 if not request.user.profile.remove_new_user_restrictions:
@@ -2740,8 +2739,7 @@ def new_question(request):
                                             review_of=create_Low_Quality_Post_Instance, is_question=new_post, is_reviewed=False)
                                     return redirect('qa:questions')
                             else:
-                                messages.error(
-                                    request, f'You need atleast 1500 Reputation to create a New Tag - {typedTags}')
+                                messages.error(request, f'You need atleast 1500 Reputation to create a New Tag - {typedTags}')
                 else:
                     formTags = form.cleaned_data['tags']
                     gettingBody = form.cleaned_data['body']
@@ -2794,8 +2792,7 @@ def new_question(request):
                                         review_of=create_Low_Quality_Post_Instance, is_question=new_post, is_reviewed=False)
                                 return redirect('qa:questions')
                         else:
-                            messages.error(
-                                request, f'You need atleast 1500 Reputation to create a New Tag - {typedTags}')
+                            messages.error(request, f'You need at least 1500 Reputation to create a New Tag - {typedTags}')
     else:
         form = QuestionForm()
 
@@ -4429,12 +4426,22 @@ def edit_question(request, question_id):
     edited_time = data.q_edited_time
 
     if request.method != 'POST':
-        form = UpdateQuestion(request.POST or None,
-                              request.FILES or None, instance=post)
+        form = UpdateQuestion(request.POST or None, request.FILES or None, instance=post)
     else:
-        form = UpdateQuestion(
-            instance=post, data=request.POST, files=request.FILES)
-        if form.is_valid():
+        # check the tags exists
+        areTagsValid = True
+        invalidTags = ''
+        formTags = request.POST.get('tags', None).split(",")
+        allTags = Tag.objects.all().values_list('name', flat=True)
+        for tag in formTags: 
+            if tag not in allTags: 
+                areTagsValid = False
+                invalidTags += " " + tag
+        if not areTagsValid and request.user.profile.create_tags:
+            areTagsValid = True
+
+        form = UpdateQuestion(instance=post, data=request.POST, files=request.FILES)
+        if form.is_valid() and areTagsValid:
             form.save(commit=False)
             formWhyEditing = form.cleaned_data['why_editing_question']
             post.q_edited_time = timezone.now()
@@ -4442,8 +4449,8 @@ def edit_question(request, question_id):
             post.q_edited_by = request.user
             request.user.profile.editPostTimeOfUser = timezone.now()
             request.user.profile.save()
-# ! ARCHAEOLOGIST BADGE - EDIT 100 POST WHICH ARE INACTIVE FOR 6-MONTHS
-# Question Old Algorithm - START
+            # ! ARCHAEOLOGIST BADGE - EDIT 100 POST WHICH ARE INACTIVE FOR 6-MONTHS
+            # Question Old Algorithm - START
             # Check if post is inactive for six months and also check
             was_inactive_for_six_months = timezone.now() - timedelta(days=168)
 
@@ -4451,8 +4458,8 @@ def edit_question(request, question_id):
                 is_in = True
             else:
                 is_in = False
-# I CAN ALSO DO THIS WITH :-: if active_time < was_inactive_for_six_months
-# and data.date < edited_time: BUT HAVEN'T TRIED YET.
+            # I CAN ALSO DO THIS WITH :-: if active_time < was_inactive_for_six_months
+            # and data.date < edited_time: BUT HAVEN'T TRIED YET.
             if is_in and data.date < edited_time:
                 is_boolean_true = True
                 if is_boolean_true:
@@ -4485,10 +4492,9 @@ def edit_question(request, question_id):
                             for_if="Archaologist",
                             description="Edit 100 posts that were inactive for 6 months"
                         )
-
             else:
                 is_boolean_true = False
-# Question Old Algorithm - END
+            # Question Old Algorithm - END
             form.save()
 
             # getEditingTime = request.user.profile.editPostTimeOfUser
@@ -4587,19 +4593,20 @@ def edit_question(request, question_id):
                     description="Edit 500 posts (excluding own or deleted posts and tag edits)")
             update_change_reason(post, formWhyEditing)
             print(form.errors)
-
             return redirect('profile:home')
-
         else:
-            print(form.errors)
-            messages.error(request,
-                           'Something went wrong!')
+            if not areTagsValid:
+                messages.info(request, f'You need atleast 1500 Reputation to create a New Tag - {invalidTags}') 
+            else:
+                print(form.errors)
+                messages.error(request, 'Something went wrong!')    
 
     context = {
         'allComments': allComments,
         'post': post,
         'form': form,
-        'post_owner': post_owner}
+        'post_owner': post_owner
+    }
     return render(request, 'qa/edit_question.html', context)
 
 
