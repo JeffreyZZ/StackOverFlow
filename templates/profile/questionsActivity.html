@@ -807,9 +807,7 @@
                 </div>
             </li>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css 
-        " crossorigin="anonymous">
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" crossorigin="anonymous">
 
             {% if not profileData.is_high_moderator %} 
                 <li class="flex--item">
@@ -1247,7 +1245,7 @@ $(document).ready(function(){
         </div>
     </aside>
 
-                <aside class="flex--item wmn2 s-card bg-black-025 bc-black-075 c-auto">
+    <aside class="flex--item wmn2 s-card bg-black-025 bc-black-075 c-auto">
         <div class="d-flex fd-column h100">
             <h1 class="flex--item fs-category fs-fine fc-black-350">Impact</h1>
             <div class="d-flex fd-column gs2 css-tooltip" data-title="Estimated number of times people viewed helpful posts by this user&#xA;(based on page views of questions&#xA;and questions where they wrote highly-ranked answers)">
@@ -1263,33 +1261,36 @@ $(document).ready(function(){
                             <div class="flex--item">{{profileData.posts_edited_counter}} posts edited</div>
                         </div>
                     </div>
+                    <div class="flex--item">
+                        <div class="d-flex gs4 ai-center" title="Total number of raised flags marked useful">
+                            <div class="flex--item"><svg aria-hidden="true" class="svg-icon iconFlag" width="18" height="18"
+                                    viewBox="0 0 18 18">
+                                    <path d="M3 2v14h2v-6h3.6l.4 1h6V3H9.5L9 2H3Z" />
+                                </svg></div>
                             <div class="flex--item">
-                                <div class="d-flex gs4 ai-center" title="Total number of raised flags marked useful">
-                                    <div class="flex--item"><svg aria-hidden="true" class="svg-icon iconFlag" width="18" height="18" viewBox="0 0 18 18"><path d="M3 2v14h2v-6h3.6l.4 1h6V3H9.5L9 2H3Z"/></svg></div>
-                                    <div class="flex--item">
-                                        {% if request.user == profileData.user %}
-                                            <a href="{% url 'profile:flag_summary' profileData.user.id profileData.user.username %}" class="fc-medium">{{profileData.helpful_flags_counter}} helpful flags</a>
-                                        {% else %}
-                                        {{profileData.helpful_flags_counter}} helpful flag{{profileData.helpful_flags_counter|pluralize}}
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        <div class="flex--item">
-                            <div class="d-flex gs4 ai-center" title="Total number of up and down votes cast">
-                                <div class="flex--item"><svg aria-hidden="true" class="svg-icon iconArrowUp" width="18" height="18" viewBox="0 0 18 18"><path d="M1 13h16L9 5l-8 8Z"/></svg></div>
-                                <div class="flex--item">
-                                    {% if request.user == profileData.user %}
-                                    <a href="{% url 'profile:Votes_castActivity' profileData.user.id profileData.user.username %}" class="fc-medium">{{getVotesCast_Final}} vote{{getVotesCast_Final|pluralize}} cast</a>
-                                    {% else %}
-                                    {{getVotesCast_Final}} vote{{getVotesCast_Final|pluralize}} cast
-                                    {% endif %}
-                            </div>
+                                {% if request.user == profileData.user %}
+                                <a href="{% url 'profile:flag_summary' profileData.user.id profileData.user.username %}" class="fc-medium">{{profileData.helpful_flags_counter}} helpful flags</a>
+                                {% else %}
+                                {{profileData.helpful_flags_counter}} helpful flag{{profileData.helpful_flags_counter|pluralize}}
+                                {% endif %}
                             </div>
                         </div>
+                    </div>
+                    <div class="flex--item">
+                        <div class="d-flex gs4 ai-center" title="Total number of up and down votes cast">
+                            <div class="flex--item"><svg aria-hidden="true" class="svg-icon iconArrowUp" width="18" height="18" viewBox="0 0 18 18"><path d="M1 13h16L9 5l-8 8Z"/></svg></div>
+                            <div class="flex--item">
+                                {% if request.user == profileData.user %}
+                                <a href="{% url 'profile:Votes_castActivity' profileData.user.id profileData.user.username %}" class="fc-medium">{{getVotesCast_Final}} vote{{getVotesCast_Final|pluralize}} cast</a>
+                                {% else %}
+                                {{getVotesCast_Final}} vote{{getVotesCast_Final|pluralize}} cast
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
     </aside>
 
 
@@ -1297,9 +1298,6 @@ $(document).ready(function(){
 
         </div>
     </div>
-
-
-
 
 
     <div class="s-navigation s-navigation__muted s-navigation__sm">
@@ -1338,188 +1336,177 @@ $(document).ready(function(){
             {% endif %}
     </div>
 
-
     <div id="user-tab-questions" class="user-tab">
     <div class="subheader d-flex ai-center jc-space-between mb16 mt32 bb bc-black-100 pb4">
         <h1 class="flex--item mb0">
             <span class='count'>{{countQuestions}}</span> Question{{countQuestions|pluralize}}
         </h1>
 
-    <div class="warpper-B">
-        <div class="tabs">
-            <label class="s-btn s-btn__muted s-btn__outlined s-btn__xs js-user-subtab First-Q_Page tab-selected active" onclick="First_Q_Page_Tab();"  id="one-tab-B" for="one-B">Votes</label>
-            <label class="s-btn s-btn__muted s-btn__outlined s-btn__xs js-user-subtab Second-Q_Page tab-selected" onclick="Second_Q_Page_Tab();"  id="two-tab-B" for="two-B">Activity</label>
-            <label class="s-btn s-btn__muted s-btn__outlined s-btn__xs js-user-subtab Third-Q_Page tab-selected" onclick="Third_Q_Page_Tab();"  id="three-tab-B" for="three-B">Newest</label>
-            <label class="s-btn s-btn__muted s-btn__outlined s-btn__xs js-user-subtab Fourth-Q_Page tab-selected" onclick="Fourth_Q_Page_Tab();"  id="fourth-tab-B" for="fourth-B">Views</label>
+        <div class="warpper-B">
+            <div class="tabs">
+                <label class="s-btn s-btn__muted s-btn__outlined s-btn__xs js-user-subtab First-Q_Page tab-selected active" onclick="First_Q_Page_Tab();"  id="one-tab-B" for="one-B">Votes</label>
+                <label class="s-btn s-btn__muted s-btn__outlined s-btn__xs js-user-subtab Second-Q_Page tab-selected" onclick="Second_Q_Page_Tab();"  id="two-tab-B" for="two-B">Activity</label>
+                <label class="s-btn s-btn__muted s-btn__outlined s-btn__xs js-user-subtab Third-Q_Page tab-selected" onclick="Third_Q_Page_Tab();"  id="three-tab-B" for="three-B">Newest</label>
+                <label class="s-btn s-btn__muted s-btn__outlined s-btn__xs js-user-subtab Fourth-Q_Page tab-selected" onclick="Fourth_Q_Page_Tab();"  id="fourth-tab-B" for="fourth-B">Views</label>
+            </div>
         </div>
     </div>
 
+    <input class="radio-B" id="one-B" name="group-B" type="radio" checked>
+    <input class="radio-B" id="two-B" name="group-B" type="radio">
+    <input class="radio-B" id="three-B" name="group-B" type="radio">
+    <input class="radio-B" id="fourth-B" name="group-B" type="radio">
 
+    <div class="panels-B">
 
-    </div>
-
-  <input class="radio-B" id="one-B" name="group-B" type="radio" checked>
-  <input class="radio-B" id="two-B" name="group-B" type="radio">
-  <input class="radio-B" id="three-B" name="group-B" type="radio">
-  <input class="radio-B" id="fourth-B" name="group-B" type="radio">
-
-<div class="panels-B">
-
-<div class="panel-B" id="one-panel-B">
-    <div class="user-tab-content">
-        <div class="user-answers">
-        {% for question in question_most_votes %}
-            <div class="question-summary narrow" id="question-summary-{{question.id}}">
-                <div class="w48">&nbsp;</div>
-                <div class="question-counts cp">
-                    <div class="votes">
-                        <div class="mini-counts">{{question.calculate_UpVote_DownVote}}</div>
-                        <div>vote</div>
-                    </div>
-                    <div class="status answered-accepted" title="one of the answers was accepted as the correct answer">
-                        <div class="mini-counts">{{question.count_answers}}</div>
-                        <div>answer</div>
-                    </div>
-                    <div class="views">
-                        <div class="mini-counts ">{{question.calculate_viewers}}</div>
-                        <div >views</div>
-                    </div>
-                </div>
-                <div class="summary">
-                    <h3><a href="{{question.get_absolute_url}}" class="question-hyperlink">{{question.title}}</a></h3>
-                    {% for tag in question.tags.all %}
-                    <div class="tags t-python t-django t-django-models t-django-views t-django-queryset">
-                        <a href="{% url 'tagbadge:taggedItemsFrom_All' tag.id %}" class="post-tag" title="show questions tagged &#39;{{tag}}&#39;" rel="tag">{{tag}}</a> 
+        <div class="panel-B" id="one-panel-B">
+            <div class="user-tab-content">
+                <div class="user-answers">
+                    {% for question in question_most_votes %}
+                    <div class="question-summary narrow" id="question-summary-{{question.id}}">
+                        <div class="question-counts cp">
+                            <div class="votes">
+                                <div class="mini-counts">{{question.calculate_UpVote_DownVote}}</div>
+                                <div>vote</div>
+                            </div>
+                            <div class="status answered-accepted" title="one of the answers was accepted as the correct answer">
+                                <div class="mini-counts">{{question.count_answers}}</div>
+                                <div>answer</div>
+                            </div>
+                            <div class="views">
+                                <div class="mini-counts ">{{question.calculate_viewers}}</div>
+                                <div >views</div>
+                            </div>
+                        </div>
+                        <div class="summary">
+                            <h3><a href="{{question.get_absolute_url}}" class="question-hyperlink">{{question.title}}</a></h3>
+                            {% for tag in question.tags.all %}
+                            <div class="tags t-python t-django t-django-models t-django-views t-django-queryset">
+                                <a href="{% url 'tagbadge:taggedItemsFrom_All' tag.id %}" class="post-tag" title="show questions tagged &#39;{{tag}}&#39;" rel="tag">{{tag}}</a> 
+                            </div>
+                            {% endfor %}
+                            <div class="started">
+                                <a href="{{question.get_absolute_url}}" class="started-link"><span title="2021-10-22 19:29:26Z" class="relativetime">{% if question.lastEdited_by %}<b>Edited</b> - {{question.q_edited_time}}{% else %}<b>Asked</b> - {{question.date}}{% endif %}</span></a>
+                                {% if question.lastEdited_by %}<a href="{% url 'profile:activityPageTabProfile' question.q_edited_by.id question.q_edited_by.username %}">{{question.lastEdited_by}}</a>{% endif %}</a> <span class="reputation-score" title="reputation score 358,570" dir="ltr">{% if question.lastEdited_by %}{{question.lastEdited_by|calculate_reputation}}{% endif %}</span>
+                            </div>
+                        </div>
                     </div>
                     {% endfor %}
-                    <div class="started">
-                        <a href="{{question.get_absolute_url}}" class="started-link"><span title="2021-10-22 19:29:26Z" class="relativetime">{% if question.lastEdited_by %}<b>Edited</b> - {{question.q_edited_time}}{% else %}<b>Asked</b> - {{question.date}}{% endif %}</span></a>
-                        {% if question.lastEdited_by %}<a href="{% url 'profile:activityPageTabProfile' question.q_edited_by.id question.q_edited_by.username %}">{{question.lastEdited_by}}</a>{% endif %}</a> <span class="reputation-score" title="reputation score 358,570" dir="ltr">{% if question.lastEdited_by %}{{question.lastEdited_by|calculate_reputation}}{% endif %}</span>
-                    </div>
                 </div>
             </div>
-        {% endfor %}
         </div>
-    </div>
-</div>
 
-
-<div class="panel-B" id="two-panel-B">
-    <div class="user-tab-content">
-        <div class="user-answers">
-            {% for question in question_recent_activity %}
-            <div class="question-summary narrow" id="question-summary-{{question.id}}">
-                <div class="w48">&nbsp;</div>
-                <div class="question-counts cp">
-                    <div class="votes">
-                        <div class="mini-counts">{{question.calculate_UpVote_DownVote}}</div>
-                        <div>vote</div>
-                    </div>
-                    <div class="status answered-accepted" title="one of the answers was accepted as the correct answer">
-                        <div class="mini-counts">{{question.count_answers}}</div>
-                        <div>answer</div>
-                    </div>
-                    <div class="views">
-                        <div class="mini-counts ">{{question.calculate_viewers}}</div>
-                        <div >views</div>
-                    </div>
-                </div>
-                <div class="summary">
-                    <h3><a href="{{question.get_absolute_url}}" class="question-hyperlink">{{question.title}}</a></h3>
-                    {% for tag in question.tags.all %}
-                    <div class="tags t-python t-django t-django-models t-django-views t-django-queryset">
-                        <a href="{% url 'tagbadge:taggedItemsFrom_All' tag.id %}" class="post-tag" title="show questions tagged &#39;{{tag}}&#39;" rel="tag">{{tag}}</a> 
+        <div class="panel-B" id="two-panel-B">
+            <div class="user-tab-content">
+                <div class="user-answers">
+                    {% for question in question_recent_activity %}
+                    <div class="question-summary narrow" id="question-summary-{{question.id}}">
+                        <div class="question-counts cp">
+                            <div class="votes">
+                                <div class="mini-counts">{{question.calculate_UpVote_DownVote}}</div>
+                                <div>vote</div>
+                            </div>
+                            <div class="status answered-accepted" title="one of the answers was accepted as the correct answer">
+                                <div class="mini-counts">{{question.count_answers}}</div>
+                                <div>answer</div>
+                            </div>
+                            <div class="views">
+                                <div class="mini-counts ">{{question.calculate_viewers}}</div>
+                                <div >views</div>
+                            </div>
+                        </div>
+                        <div class="summary">
+                            <h3><a href="{{question.get_absolute_url}}" class="question-hyperlink">{{question.title}}</a></h3>
+                            {% for tag in question.tags.all %}
+                            <div class="tags t-python t-django t-django-models t-django-views t-django-queryset">
+                                <a href="{% url 'tagbadge:taggedItemsFrom_All' tag.id %}" class="post-tag" title="show questions tagged &#39;{{tag}}&#39;" rel="tag">{{tag}}</a> 
+                            </div>
+                            {% endfor %}
+                            <div class="started">
+                                <a href="{{question.get_absolute_url}}" class="started-link"><span title="2021-10-22 19:29:26Z" class="relativetime">{% if question.lastEdited_by %}<b>Edited</b> - {{question.q_edited_time}}{% else %}<b>Asked</b> - {{question.date}}{% endif %}</span></a>
+                                {% if question.lastEdited_by %}<a href="{% url 'profile:activityPageTabProfile' question.q_edited_by.id question.q_edited_by.username %}">{{question.lastEdited_by}}</a>{% endif %}</a> <span class="reputation-score" title="reputation score 358,570" dir="ltr">{% if question.lastEdited_by %}{{question.lastEdited_by|calculate_reputation}}{% endif %}</span>
+                            </div>
+                        </div>
                     </div>
                     {% endfor %}
-                    <div class="started">
-                        <a href="{{question.get_absolute_url}}" class="started-link"><span title="2021-10-22 19:29:26Z" class="relativetime">{% if question.lastEdited_by %}<b>Edited</b> - {{question.q_edited_time}}{% else %}<b>Asked</b> - {{question.date}}{% endif %}</span></a>
-                        {% if question.lastEdited_by %}<a href="{% url 'profile:activityPageTabProfile' question.q_edited_by.id question.q_edited_by.username %}">{{question.lastEdited_by}}</a>{% endif %}</a> <span class="reputation-score" title="reputation score 358,570" dir="ltr">{% if question.lastEdited_by %}{{question.lastEdited_by|calculate_reputation}}{% endif %}</span>
-                    </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
-    </div>
-</div>
 
-
-<div class="panel-B" id="three-panel-B">
-    <div class="user-tab-content">
-        <div class="user-answers">
-            {% for question in question_newest %}
-            <div class="question-summary narrow" id="question-summary-{{question.id}}">
-                <div class="w48">&nbsp;</div>
-                <div class="question-counts cp">
-                    <div class="votes">
-                        <div class="mini-counts">{{question.calculate_UpVote_DownVote}}</div>
-                        <div>vote</div>
-                    </div>
-                    <div class="status answered-accepted" title="one of the answers was accepted as the correct answer">
-                        <div class="mini-counts">{{question.count_answers}}</div>
-                        <div>answer</div>
-                    </div>
-                    <div class="views">
-                        <div class="mini-counts ">{{question.calculate_viewers}}</div>
-                        <div >views</div>
-                    </div>
-                </div>
-                <div class="summary">
-                    <h3><a href="{{question.get_absolute_url}}" class="question-hyperlink">{{question.title}}</a></h3>
-                    {% for tag in question.tags.all %}
-                    <div class="tags t-python t-django t-django-models t-django-views t-django-queryset">
-                        <a href="{% url 'tagbadge:taggedItemsFrom_All' tag.id %}" class="post-tag" title="show questions tagged &#39;{{tag}}&#39;" rel="tag">{{tag}}</a> 
+        <div class="panel-B" id="three-panel-B">
+            <div class="user-tab-content">
+                <div class="user-answers">
+                    {% for question in question_newest %}
+                    <div class="question-summary narrow" id="question-summary-{{question.id}}">
+                        <div class="question-counts cp">
+                            <div class="votes">
+                                <div class="mini-counts">{{question.calculate_UpVote_DownVote}}</div>
+                                <div>vote</div>
+                            </div>
+                            <div class="status answered-accepted" title="one of the answers was accepted as the correct answer">
+                                <div class="mini-counts">{{question.count_answers}}</div>
+                                <div>answer</div>
+                            </div>
+                            <div class="views">
+                                <div class="mini-counts ">{{question.calculate_viewers}}</div>
+                                <div >views</div>
+                            </div>
+                        </div>
+                        <div class="summary">
+                            <h3><a href="{{question.get_absolute_url}}" class="question-hyperlink">{{question.title}}</a></h3>
+                            {% for tag in question.tags.all %}
+                            <div class="tags t-python t-django t-django-models t-django-views t-django-queryset">
+                                <a href="{% url 'tagbadge:taggedItemsFrom_All' tag.id %}" class="post-tag" title="show questions tagged &#39;{{tag}}&#39;" rel="tag">{{tag}}</a> 
+                            </div>
+                            {% endfor %}
+                            <div class="started">
+                                <a href="{{question.get_absolute_url}}" class="started-link"><span title="2021-10-22 19:29:26Z" class="relativetime">{% if question.lastEdited_by %}<b>Edited</b> - {{question.q_edited_time}}{% else %}<b>Asked</b> - {{question.date}}{% endif %}</span></a>
+                                {% if question.lastEdited_by %}<a href="{% url 'profile:activityPageTabProfile' question.q_edited_by.id question.q_edited_by.username %}">{{question.lastEdited_by}}</a>{% endif %}</a> <span class="reputation-score" title="reputation score 358,570" dir="ltr">{% if question.lastEdited_by %}{{question.lastEdited_by|calculate_reputation}}{% endif %}</span>
+                            </div>
+                        </div>
                     </div>
                     {% endfor %}
-                    <div class="started">
-                        <a href="{{question.get_absolute_url}}" class="started-link"><span title="2021-10-22 19:29:26Z" class="relativetime">{% if question.lastEdited_by %}<b>Edited</b> - {{question.q_edited_time}}{% else %}<b>Asked</b> - {{question.date}}{% endif %}</span></a>
-                        {% if question.lastEdited_by %}<a href="{% url 'profile:activityPageTabProfile' question.q_edited_by.id question.q_edited_by.username %}">{{question.lastEdited_by}}</a>{% endif %}</a> <span class="reputation-score" title="reputation score 358,570" dir="ltr">{% if question.lastEdited_by %}{{question.lastEdited_by|calculate_reputation}}{% endif %}</span>
-                    </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
-    </div>
-</div>
 
-
-<div class="panel-B" id="fourth-panel-B">
-    <div class="user-tab-content">
-        <div class="user-answers">
-            {% for question in question_most_views %}
-            <div class="question-summary narrow" id="question-summary-{{question.id}}">
-                <div class="w48">&nbsp;</div>
-                <div class="question-counts cp">
-                    <div class="votes">
-                        <div class="mini-counts">{{question.calculate_UpVote_DownVote}}</div>
-                        <div>vote</div>
-                    </div>
-                    <div class="status answered-accepted" title="one of the answers was accepted as the correct answer">
-                        <div class="mini-counts">{{question.count_answers}}</div>
-                        <div>answer</div>
-                    </div>
-                    <div class="views">
-                        <div class="mini-counts ">{{question.calculate_viewers}}</div>
-                        <div >views</div>
-                    </div>
-                </div>
-                <div class="summary">
-                    <h3><a href="{{question.get_absolute_url}}" class="question-hyperlink">{{question.title}}</a></h3>
-                    {% for tag in question.tags.all %}
-                    <div class="tags t-python t-django t-django-models t-django-views t-django-queryset">
-                        <a href="{% url 'tagbadge:taggedItemsFrom_All' tag.id %}" class="post-tag" title="show questions tagged &#39;{{tag}}&#39;" rel="tag">{{tag}}</a> 
+        <div class="panel-B" id="fourth-panel-B">
+            <div class="user-tab-content">
+                <div class="user-answers">
+                    {% for question in question_most_views %}
+                    <div class="question-summary narrow" id="question-summary-{{question.id}}">
+                        <div class="question-counts cp">
+                            <div class="votes">
+                                <div class="mini-counts">{{question.calculate_UpVote_DownVote}}</div>
+                                <div>vote</div>
+                            </div>
+                            <div class="status answered-accepted" title="one of the answers was accepted as the correct answer">
+                                <div class="mini-counts">{{question.count_answers}}</div>
+                                <div>answer</div>
+                            </div>
+                            <div class="views">
+                                <div class="mini-counts ">{{question.calculate_viewers}}</div>
+                                <div >views</div>
+                            </div>
+                        </div>
+                        <div class="summary">
+                            <h3><a href="{{question.get_absolute_url}}" class="question-hyperlink">{{question.title}}</a></h3>
+                            {% for tag in question.tags.all %}
+                            <div class="tags t-python t-django t-django-models t-django-views t-django-queryset">
+                                <a href="{% url 'tagbadge:taggedItemsFrom_All' tag.id %}" class="post-tag" title="show questions tagged &#39;{{tag}}&#39;" rel="tag">{{tag}}</a> 
+                            </div>
+                            {% endfor %}
+                            <div class="started">
+                                <a href="{{question.get_absolute_url}}" class="started-link"><span title="2021-10-22 19:29:26Z" class="relativetime">{% if question.lastEdited_by %}<b>Edited</b> - {{question.q_edited_time}}{% else %}<b>Asked</b> - {{question.date}}{% endif %}</span></a>
+                                {% if question.lastEdited_by %}<a href="{% url 'profile:activityPageTabProfile' question.q_edited_by.id question.q_edited_by.username %}">{{question.lastEdited_by}}</a>{% endif %}</a> <span class="reputation-score" title="reputation score 358,570" dir="ltr">{% if question.lastEdited_by %}{{question.lastEdited_by|calculate_reputation}}{% endif %}</span>
+                            </div>
+                        </div>
                     </div>
                     {% endfor %}
-                    <div class="started">
-                        <a href="{{question.get_absolute_url}}" class="started-link"><span title="2021-10-22 19:29:26Z" class="relativetime">{% if question.lastEdited_by %}<b>Edited</b> - {{question.q_edited_time}}{% else %}<b>Asked</b> - {{question.date}}{% endif %}</span></a>
-                        {% if question.lastEdited_by %}<a href="{% url 'profile:activityPageTabProfile' question.q_edited_by.id question.q_edited_by.username %}">{{question.lastEdited_by}}</a>{% endif %}</a> <span class="reputation-score" title="reputation score 358,570" dir="ltr">{% if question.lastEdited_by %}{{question.lastEdited_by|calculate_reputation}}{% endif %}</span>
-                    </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
-    </div>
-</div>
-  
+    
     </div>
 
     </div>
