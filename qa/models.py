@@ -20,11 +20,9 @@ from slugify import slugify
 
 
 ACTIVE_FOR_CHOICES = [
-
     ('ANSWERED', 'Answered'),
     ('MODIFIED', 'Modified'),
     ('ASKED', 'Asked'),
-
 ]
 
 
@@ -157,10 +155,8 @@ class QDownvote(models.Model):
         return f"{self.downvote_question_of} = [DOWNVOTED-BY] {self.downvote_question_of}"
 
 DELETE_HISTORY = [
-
     ('DELETED','Deleted'),
     ('UNDELETED','UnDeleted'),
-
 ]
 
 class Answer(models.Model):
@@ -254,7 +250,6 @@ class AnswerComment(models.Model):
 
 
 BOUNTY_VALUE_CHOICES = [
-
     ('50', '50'),
     ('100', '100'),
     ('150', '150'),
@@ -265,7 +260,6 @@ BOUNTY_VALUE_CHOICES = [
     ('400', '400'),
     ('450', '450'),
     ('500', '500'),
-
 ]
 
 class Bounty(models.Model):
@@ -283,12 +277,10 @@ class Bounty(models.Model):
 
 
 APPROVAL_CHOICES = [
-
     ('Close','Close'),
     ('Leave_open', 'Leave open'),
     ('Edit', 'Edit'),
     ('Skip', 'Skip'),
-
 ]
 
 
@@ -305,19 +297,15 @@ class ProtectQuestion(models.Model):
         return f"{self.protecting_question}"
 
 REPUTATION_CHOICES = [
-
     ('QUESTION', 'Question'),
     ('ANSWER', 'Answer'),
     ('EDIT', 'Edit'),
     ('ANSWER_ACCEPT', 'Answer Accept'),
-
 ]
 
 INC_DEC_CHOICES = [
-
     ('Increased', 'Increased'),
     ('Decreased', 'Decreased'),
-
 ]
 
 class Reputation(models.Model):
@@ -333,22 +321,22 @@ class Reputation(models.Model):
 
     def __str__(self):
         if self.question_rep_C != 0 and self.answer_rep_C == 0:
-            return f'[REPUTATION] - {self.question_rep_C} = {self.question_O.title}'
+            if self.question_O is None:
+                return f'[Question REPUTATION] - {self.question_rep_C}'
+            else:
+                return f'[Question REPUTATION] - {self.question_rep_C} = {self.question_O.title}'
         elif self.answer_rep_C != 0 and self.question_rep_C == 0:
-            return f'[REPUTATION] - {self.answer_rep_C}'  
+            return f'[Answer REPUTATION] - {self.answer_rep_C}'  
 
 # Ban User is Under Construction
 
-BANN_REASONS = [
-
+BAN_REASONS = [
     ('DOING_SOCKPUPPETS' , 'Doing SockPuppets'),
     ('RUDE_TO_MEMBERS', 'Rude to Members'),
     ('TERMS_AND_CONDITIONS_VOILATIONS', 'Terms and Conditions Voilations'),
-
 ]
 
 BAN_TILL_CHOICES = [
-
     ('3_DAYS', "3 Days"),
     ('7_DAYS', "7 Days"),
     ('15_DAYS', "15 DAYS"),
@@ -357,13 +345,12 @@ BAN_TILL_CHOICES = [
     ('6_MONTHS', "6 MONTHS"),
     ('1_YEAR', "1 YEAR"),
     ('4_YEARS', "4 YEARS"),
-
 ]
 
 class BannedUser(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user")
     banned_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="banned_by")
-    banned_reasons = models.CharField(max_length=50, choices=BANN_REASONS, default='')
+    banned_reasons = models.CharField(max_length=50, choices=BAN_REASONS, default='')
     baned_at = models.DateTimeField(auto_now_add=True)
     is_banned = models.BooleanField(default=False)
     ban_till = models.CharField(max_length=30, choices=BAN_TILL_CHOICES, default='')
