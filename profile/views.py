@@ -62,10 +62,20 @@ def Ajax_searchTag(request):
 
     return JsonResponse({'results': serialized_results})
 
-def tagsPage(request):
-    All_tags = Question.tags.most_common()
+def tagsPage(request, kind=None):
 
-    context = {'All_tags':All_tags,}
+    if kind == "name":
+        All_tags = Question.tags.order_by('name')
+    if kind == "new":
+        All_tags = Question.tags.order_by('-id')
+    else:
+        kind == "popular"
+        All_tags = Question.tags.most_common()
+
+    context = {
+        'All_tags':All_tags,
+        'selected_tab': kind
+    }
     return render(request, 'profile/tagsPage.html', context)
 
 def usersPage(request):

@@ -245,6 +245,20 @@ MARTOR_TOOLBAR_BUTTONS = [
     'direct-mention', 'toggle-maximize', 'help'
 ]
 
+ALLOWED_HTML_TAGS = [
+    "a", "abbr", "b", "blockquote", "br", "cite", "code", "command",
+    "dd", "del", "dl", "dt", "em", "fieldset", "h1", "h2", "h3", "h4", "h5", "h6",
+    "hr", "i", "iframe", "img", "input", "ins", "kbd", "label", "legend",
+    "li", "ol", "optgroup", "option", "p", "pre", "small", "span", "strong",
+    "sub", "sup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "u", "ul"
+]
+
+ALLOWED_HTML_ATTRIBUTES = [
+    "alt", "class", "color", "colspan", "datetime",  # "data",
+    "height", "href", "id", "name", "reversed", "rowspan",
+    "scope", "src", "style", "title", "type", "width"
+]
+
 CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'

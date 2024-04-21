@@ -18,6 +18,8 @@ urlpatterns = [
 
 	path('Ajax_searchTag/', views.Ajax_searchTag, name='Ajax_searchTag'),
 
+	path('tagsPage/<str:kind>/', views.tagsPage, name='tagsPage'),
+    
 	path('tagsPage/', views.tagsPage, name='tagsPage'),
 
 	path('Ajax_searchUser/', views.Ajax_searchUser, name='Ajax_searchUser'),

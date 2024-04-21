@@ -130,14 +130,10 @@
         </div>
 
         <div class="flex--item ml-auto mb12 d-flex s-btn-group js-filter-btn">
-        <a class="youarehere is-selected flex--item s-btn s-btn__muted s-btn__outlined" href="/tags?tab=popular" data-nav-xhref="" title="most popular tags" data-value="popular" data-shortcut="">
-            Popular</a>
-        <a class="flex--item s-btn s-btn__muted s-btn__outlined" href="/tags?tab=name" data-nav-xhref="" title="tags in alphabetical order" data-value="name" data-shortcut="">
-            Name</a>
-        <a class="flex--item s-btn s-btn__muted s-btn__outlined" href="/tags?tab=new" data-nav-xhref="" title="recently created tags" data-value="new" data-shortcut="">
-            New</a>
-</div>
-
+            <a class="{% if selected_tab == 'popular' or not selected_tab %}youarehere is-selected{% endif %} flex--item s-btn s-btn__muted s-btn__outlined" href="/tagsPage/popular" data-nav-xhref="" title="most popular tags" data-value="popular" data-shortcut="">Popular</a>
+            <a class="{% if selected_tab == 'name' %}youarehere is-selected{% endif %} flex--item s-btn s-btn__muted s-btn__outlined" href="/tagsPage/name" data-nav-xhref="" title="tags in alphabetical order" data-value="name" data-shortcut="">Name</a>
+            <a class="{% if selected_tab == 'new' %}youarehere is-selected{% endif %} flex--item s-btn s-btn__muted s-btn__outlined" href="/tagsPage/new" data-nav-xhref="" title="recently created tags" data-value="new" data-shortcut="">New</a>
+        </div>
     </div>
 
 

@@ -55,7 +55,7 @@
                         
 
         <li class="">
-            <a id="nav-tags" href="{% url 'profile:tagsPage' %}" class="nav-links--link">
+            <a id="nav-tags" href="{% url 'profile:tagsPage' kind='popular'%}" class="nav-links--link">
               <div class="d-flex ai-center">
                 <div class="flex--item truncate">Tags</div>
               </div>
@@ -168,7 +168,7 @@
 </div>
 
     <br class="cbt"/>
-    <h2 class="bottom-notice" data-loc="2">Looking for more? Browse the <a href="{% url 'qa:questions' %}">complete list of questions</a>, or <a href="{% url 'profile:tagsPage' %}">popular tags</a>. Help us answer <a href="/unanswered">unanswered questions</a>.</h2>
+    <h2 class="bottom-notice" data-loc="2">Looking for more? Browse the <a href="{% url 'qa:questions' %}">complete list of questions</a>, or <a href="{% url 'profile:tagsPage' kind='popular'%}">popular tags</a>. Help us answer <a href="/unanswered">unanswered questions</a>.</h2>
 
 </div>
     <div id="sidebar">
