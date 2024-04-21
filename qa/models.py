@@ -59,6 +59,7 @@ class Question(models.Model):
     deleted_time = models.DateTimeField(auto_now_add=True, blank=True)
     # FK needed by notion
     post_owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    published = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-date"]
